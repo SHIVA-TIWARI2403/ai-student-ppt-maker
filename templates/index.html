@@ -3,39 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SlideCraft AI — Academic Presentation & Research Deck Engine</title>
+    <title>SlideCraft AI — Autonomous Presentation Engine (Gamma Edition)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
-<body class="bg-[#070A11] text-gray-100 min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white">
+<body class="bg-[#090B10] text-[#F8FAFC] min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white">
 
-    <!-- Top Navigation -->
-    <header class="border-b border-gray-800 bg-[#0B0F19]/80 backdrop-blur sticky top-0 z-50">
+    <!-- Top Sticky Gamma Navigation Bar -->
+    <header class="border-b border-white/10 bg-[#090B10]/90 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            
+            <!-- Logo & Brand -->
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 via-teal-400 to-cyan-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 via-teal-400 to-cyan-500 flex items-center justify-center shadow-lg shadow-emerald-500/25">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                 </div>
                 <div>
-                    <span class="text-xl font-black tracking-tight text-white flex items-center gap-2">
-                        SlideCraft <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30">ACADEMIC AI</span>
-                    </span>
-                    <p class="text-[11px] text-gray-400 -mt-0.5">Autonomous Presentation Engine for Students & Researchers</p>
+                    <div class="flex items-center gap-2">
+                        <span class="text-lg font-black tracking-tight text-white">SlideCraft</span>
+                        <span class="gamma-pill text-[10px] py-0.5 px-2">GAMMA EDITION</span>
+                    </div>
                 </div>
             </div>
 
+            <!-- View Switcher Tabs (Deck vs Document) -->
+            <div id="viewModeContainer" class="hidden sm:flex items-center bg-[#151B28] p-1 rounded-xl border border-white/10 text-xs font-semibold">
+                <button id="viewDeckBtn" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-white font-bold transition flex items-center gap-1.5 shadow-sm">
+                    🎴 Slide Deck (16:9)
+                </button>
+                <button id="viewDocBtn" class="px-3.5 py-1.5 rounded-lg text-gray-400 hover:text-white transition flex items-center gap-1.5">
+                    📜 Continuous Document
+                </button>
+            </div>
+
+            <!-- GitHub & Actions -->
             <div class="flex items-center gap-3">
-                <span class="hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    25-Slide Deep Research Engine
-                </span>
-                <a href="https://github.com/SHIVA-TIWARI2403" target="_blank" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-gray-800 hover:bg-gray-700 text-gray-200 border border-gray-700 transition flex items-center gap-1.5">
+                <a href="https://github.com/SHIVA-TIWARI2403" target="_blank" class="gamma-btn-secondary text-xs flex items-center gap-1.5">
                     <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
                     GitHub
                 </a>
@@ -43,47 +52,49 @@
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full space-y-10">
+    <!-- Main Workspace -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full space-y-12">
 
-        <!-- Hero Title -->
-        <div class="text-center space-y-3 pt-2">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-1">
-                <span>⚡ Formal Concept Definitions</span>
+        <!-- Hero Prompt Section (Gamma-Style) -->
+        <div class="text-center space-y-4 max-w-3xl mx-auto">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">
+                <span>✨ Gamma Bento Cards</span>
                 <span>•</span>
-                <span>Deep Theory</span>
+                <span>Formal Definition</span>
                 <span>•</span>
-                <span>Background Wallpapers</span>
+                <span>Deep Research (Up to 25 Slides)</span>
                 <span>•</span>
-                <span>Thank You / Q&A</span>
+                <span>Native .PPTX</span>
             </div>
-            <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-white">
-                Autonomous Academic <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">Presentation Generator</span>
+            <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
+                Create Stunning Academic Presentations <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">Like Gamma</span>
             </h1>
-            <p class="text-gray-400 max-w-2xl mx-auto text-sm sm:text-base">
-                Provide your research topic and slide requirements. SlideCraft AI synthesizes exhaustive theoretical slide decks complete with formal concept definitions, full-bleed wallpapers, diagrams, animated transitions, and closing defense remarks.
+            <p class="text-gray-400 text-sm sm:text-base leading-relaxed">
+                Generate modular, beautifully structured research decks with formal concept definitions, full-bleed wallpapers, deep mathematical formulations, animated transitions, and closing defense remarks.
             </p>
         </div>
 
-        <!-- Studio Input Card -->
-        <div class="glass-panel p-6 sm:p-9 max-w-4xl mx-auto shadow-2xl">
+        <!-- Gamma Creator Card -->
+        <div class="bento-card p-6 sm:p-9 max-w-4xl mx-auto border border-white/10 shadow-2xl relative overflow-hidden">
             <div class="space-y-6">
 
-                <!-- 1. Topic Input -->
+                <!-- 1. Topic Input Bar -->
                 <div>
-                    <label class="block text-sm font-semibold text-gray-200 mb-2">
-                        1. Presentation Topic or Research Thesis Title:
+                    <label class="block text-xs font-bold text-gray-300 uppercase tracking-wider mb-2">
+                        1. What would you like to present?
                     </label>
-                    <input id="topicInput" type="text" placeholder="e.g. Quantum Computing Architectures, CRISPR Cas-9 Genomic Manipulation, Zero-Trust Cybersecurity..." 
-                           class="w-full px-4 py-3.5 rounded-xl bg-gray-900 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-sm sm:text-base transition">
+                    <div class="relative">
+                        <input id="topicInput" type="text" placeholder="e.g. Quantum Computing Superposition & Entanglement, CRISPR Cas-9 Genomic Engineering, Zero-Trust Cybersecurity..." 
+                               class="w-full px-5 py-4 rounded-xl bg-[#090B10] border border-white/15 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm sm:text-base transition">
+                    </div>
 
-                    <!-- Suggestions -->
+                    <!-- Suggestions Pills -->
                     <div class="mt-3 flex flex-wrap gap-2 items-center">
-                        <span class="text-xs text-gray-500 font-medium">Quick Topics:</span>
-                        <button type="button" class="preset-topic-pill px-2.5 py-1 rounded-md text-xs bg-gray-800/80 hover:bg-gray-700 text-gray-300 border border-gray-700/80 transition">🧬 CRISPR Gene Editing</button>
-                        <button type="button" class="preset-topic-pill px-2.5 py-1 rounded-md text-xs bg-gray-800/80 hover:bg-gray-700 text-gray-300 border border-gray-700/80 transition">⚛️ Quantum Computing</button>
-                        <button type="button" class="preset-topic-pill px-2.5 py-1 rounded-md text-xs bg-gray-800/80 hover:bg-gray-700 text-gray-300 border border-gray-700/80 transition">🤖 Deep Neural Networks</button>
-                        <button type="button" class="preset-topic-pill px-2.5 py-1 rounded-md text-xs bg-gray-800/80 hover:bg-gray-700 text-gray-300 border border-gray-700/80 transition">⚡ Renewable Energy Systems</button>
+                        <span class="text-xs text-gray-500 font-semibold">Suggested:</span>
+                        <button type="button" class="preset-topic-pill px-3 py-1 rounded-full text-xs bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10 transition">🧬 CRISPR Gene Editing</button>
+                        <button type="button" class="preset-topic-pill px-3 py-1 rounded-full text-xs bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10 transition">⚛️ Quantum Computing</button>
+                        <button type="button" class="preset-topic-pill px-3 py-1 rounded-full text-xs bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10 transition">🤖 Deep Neural Networks</button>
+                        <button type="button" class="preset-topic-pill px-3 py-1 rounded-full text-xs bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10 transition">⚡ Renewable Energy 2026</button>
                     </div>
                 </div>
 
@@ -91,15 +102,15 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-1">
                     
                     <!-- Slide Count Slider: 3 to 25 -->
-                    <div>
+                    <div class="p-4 rounded-xl bg-[#090B10] border border-white/10">
                         <div class="flex justify-between items-center mb-2">
-                            <label class="text-sm font-semibold text-gray-200">2. Number of Slides (Up to 25 Pages):</label>
-                            <span id="slideCountDisplay" class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded border border-emerald-500/20">10 Slides</span>
+                            <label class="text-xs font-bold text-gray-300 uppercase tracking-wider">Number of Cards (Up to 25 Slides):</label>
+                            <span id="slideCountDisplay" class="gamma-pill text-xs">10 Slides</span>
                         </div>
                         <input id="slideCountInput" type="range" min="3" max="25" value="10" step="1" 
                                oninput="document.getElementById('slideCountDisplay').innerText = this.value + ' Slides'"
                                class="w-full accent-emerald-500 cursor-pointer bg-gray-800 rounded-lg">
-                        <div class="flex justify-between text-[11px] text-gray-500 mt-1">
+                        <div class="flex justify-between text-[11px] text-gray-500 mt-2 font-mono">
                             <span>3 (Brief)</span>
                             <span>8 (Seminar)</span>
                             <span>15 (Deep)</span>
@@ -109,69 +120,69 @@
                     </div>
 
                     <!-- Academic Depth Level -->
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-200 mb-2">3. Research Rigor & Depth:</label>
-                        <select id="eduLevelInput" class="w-full px-3.5 py-2.5 rounded-xl bg-gray-900 border border-gray-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                            <option value="Master's & Doctoral">Master's & Doctoral Defense (Exhaustive Theory & Formulations)</option>
-                            <option value="Undergraduate Seminar">Undergraduate Seminar (Detailed Concepts & Case Studies)</option>
-                            <option value="Engineering Project">Engineering Project (System Architecture & Pipeline Mechanics)</option>
-                            <option value="High School Honors">High School Honors (Foundational Principles & Clear Models)</option>
+                    <div class="p-4 rounded-xl bg-[#090B10] border border-white/10 flex flex-col justify-between">
+                        <label class="block text-xs font-bold text-gray-300 uppercase tracking-wider mb-2">Academic Rigor & Depth:</label>
+                        <select id="eduLevelInput" class="w-full px-3 py-2.5 rounded-lg bg-[#151B28] border border-white/15 text-white text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-emerald-500">
+                            <option value="Master's & Doctoral">Master's & Doctoral Defense (Formal Proofs & Deep Architecture)</option>
+                            <option value="Undergraduate Seminar">Undergraduate Seminar (Balanced Concepts & Empirical Benchmarks)</option>
+                            <option value="Engineering Project">Engineering Project (Structural Blueprints & Execution Pipelines)</option>
+                            <option value="High School Honors">High School Honors (Foundational Models & Clear Paradigms)</option>
                         </select>
                     </div>
                 </div>
 
                 <!-- 3. Themes Selector -->
                 <div>
-                    <label class="block text-sm font-semibold text-gray-200 mb-2">4. Presentation Color Palette & Typography:</label>
+                    <label class="block text-xs font-bold text-gray-300 uppercase tracking-wider mb-2">Visual Palette & Typography:</label>
                     <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
                         
-                        <div class="theme-card active p-3 rounded-xl bg-gray-900 border text-center" data-theme="cyber_emerald">
-                            <div class="flex justify-center gap-1 mb-2">
+                        <div class="theme-card active bento-card p-3 text-center" data-theme="cyber_emerald">
+                            <div class="flex justify-center gap-1.5 mb-2">
                                 <span class="w-3.5 h-3.5 rounded-full bg-[#10b981]"></span>
                                 <span class="w-3.5 h-3.5 rounded-full bg-[#38bdf8]"></span>
                                 <span class="w-3.5 h-3.5 rounded-full bg-[#0d1117]"></span>
                             </div>
-                            <span class="text-xs font-bold block text-white">Cyber Emerald</span>
+                            <span class="text-xs font-bold block text-white">Obsidian Emerald</span>
                             <span class="text-[10px] text-gray-400">Tech / CS / AI</span>
                         </div>
 
-                        <div class="theme-card p-3 rounded-xl bg-gray-900 border text-center" data-theme="academic_navy">
-                            <div class="flex justify-center gap-1 mb-2">
+                        <div class="theme-card bento-card p-3 text-center" data-theme="academic_navy">
+                            <div class="flex justify-center gap-1.5 mb-2">
                                 <span class="w-3.5 h-3.5 rounded-full bg-[#48cae4]"></span>
                                 <span class="w-3.5 h-3.5 rounded-full bg-[#f77f00]"></span>
                                 <span class="w-3.5 h-3.5 rounded-full bg-[#0b132b]"></span>
                             </div>
-                            <span class="text-xs font-bold block text-white">Academic Navy</span>
+                            <span class="text-xs font-bold block text-white">Midnight Cobalt</span>
                             <span class="text-[10px] text-gray-400">Formal Seminar</span>
                         </div>
 
-                        <div class="theme-card p-3 rounded-xl bg-gray-900 border text-center" data-theme="modern_minimalist">
-                            <div class="flex justify-center gap-1 mb-2">
+                        <div class="theme-card bento-card p-3 text-center" data-theme="modern_minimalist">
+                            <div class="flex justify-center gap-1.5 mb-2">
                                 <span class="w-3.5 h-3.5 rounded-full bg-[#6366f1]"></span>
                                 <span class="w-3.5 h-3.5 rounded-full bg-[#ec4899]"></span>
                                 <span class="w-3.5 h-3.5 rounded-full bg-[#f8fafc]"></span>
                             </div>
-                            <span class="text-xs font-bold block text-white">Minimalist</span>
+                            <span class="text-xs font-bold block text-white">Stark Minimalist</span>
                             <span class="text-[10px] text-gray-400">Editorial Clean</span>
                         </div>
 
-                        <div class="theme-card p-3 rounded-xl bg-gray-900 border text-center" data-theme="vibrant_sunset">
-                            <div class="flex justify-center gap-1 mb-2">
+                        <div class="theme-card bento-card p-3 text-center" data-theme="vibrant_sunset">
+                            <div class="flex justify-center gap-1.5 mb-2">
                                 <span class="w-3.5 h-3.5 rounded-full bg-[#f43f5e]"></span>
                                 <span class="w-3.5 h-3.5 rounded-full bg-[#f59e0b]"></span>
                                 <span class="w-3.5 h-3.5 rounded-full bg-[#1e112a]"></span>
                             </div>
-                            <span class="text-xs font-bold block text-white">Vibrant Sunset</span>
+                            <span class="text-xs font-bold block text-white">Onyx Rose</span>
                             <span class="text-[10px] text-gray-400">Creative & Bold</span>
                         </div>
 
-                        <div class="theme-card p-3 rounded-xl bg-gray-900 border text-center" data-theme="ocean_cyan">
-                            <div class="flex justify-center gap-1 mb-2">
+                        <div class="theme-card bento-card p-3 text-center" data-theme="ocean_cyan">
+                            <div class="flex justify-center gap-1.5 mb-2">
                                 <span class="w-3.5 h-3.5 rounded-full bg-[#06b6d4]"></span>
                                 <span class="w-3.5 h-3.5 rounded-full bg-[#f97316]"></span>
                                 <span class="w-3.5 h-3.5 rounded-full bg-[#071e26]"></span>
                             </div>
-                            <span class="text-xs font-bold block text-white">Ocean Cyan</span>
+                            <span class="text-xs font-bold block text-white">Deep Marine</span>
                             <span class="text-[10px] text-gray-400">Marine Blue</span>
                         </div>
 
@@ -179,104 +190,113 @@
                 </div>
 
                 <!-- 4. Feature Toggles -->
-                <div class="p-4 rounded-xl bg-gray-900/60 border border-gray-800 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-                    <label class="flex items-center gap-2 cursor-pointer text-gray-300 hover:text-white">
+                <div class="p-4 rounded-xl bg-[#090B10] border border-white/10 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                    <label class="flex items-center gap-2.5 cursor-pointer text-gray-300 hover:text-white">
                         <input id="toggleBackground" type="checkbox" checked class="rounded accent-emerald-500 w-4 h-4">
-                        <span>🌌 Thematic Background Wallpaper</span>
+                        <span class="font-semibold">🌌 Ambient Background Wallpapers</span>
                     </label>
-                    <label class="flex items-center gap-2 cursor-pointer text-gray-300 hover:text-white">
+                    <label class="flex items-center gap-2.5 cursor-pointer text-gray-300 hover:text-white">
                         <input id="toggleImages" type="checkbox" checked class="rounded accent-emerald-500 w-4 h-4">
-                        <span>🖼️ Scientific Visuals & Diagrams</span>
+                        <span class="font-semibold">🖼️ High-Res 3D Scientific Visuals</span>
                     </label>
-                    <label class="flex items-center gap-2 cursor-pointer text-gray-300 hover:text-white">
+                    <label class="flex items-center gap-2.5 cursor-pointer text-gray-300 hover:text-white">
                         <input id="toggleAnimations" type="checkbox" checked class="rounded accent-emerald-500 w-4 h-4">
-                        <span>✨ OpenXML Slide Motion Transitions</span>
+                        <span class="font-semibold">✨ OpenXML Slide Transitions</span>
                     </label>
                 </div>
 
-                <!-- 5. Advanced Optional API Key -->
+                <!-- 5. Advanced Optional Key -->
                 <details class="text-xs text-gray-400">
                     <summary class="cursor-pointer font-medium hover:text-emerald-400 transition">
-                        🔑 Optional: Custom Google Gemini API Key (Offline Academic Mode works out of the box!)
+                        🔑 Advanced: Custom Google Gemini API Key (Optional — Free Academic Engine works out of the box!)
                     </summary>
-                    <div class="mt-3 p-3 bg-gray-900 rounded-lg border border-gray-800 space-y-2">
+                    <div class="mt-3 p-3 bg-[#090B10] rounded-xl border border-white/10 space-y-2">
                         <input id="geminiKeyInput" type="password" placeholder="AIzaSy... (Leave blank to use built-in 25-slide Academic Research Engine)" 
-                               class="w-full px-3 py-2 rounded bg-black/40 border border-gray-700 text-white text-xs focus:ring-1 focus:ring-emerald-500">
-                        <p class="text-[11px] text-gray-500">Enter a Google Gemini API key if desired. If empty, the engine automatically synthesizes an exhaustive presentation using its extensive academic taxonomy.</p>
+                               class="w-full px-3 py-2 rounded-lg bg-[#151B28] border border-white/10 text-white text-xs focus:ring-1 focus:ring-emerald-500">
+                        <p class="text-[11px] text-gray-500">Get a free key from Google AI Studio. If left empty, the engine automatically synthesizes an exhaustive presentation using its extensive academic taxonomy.</p>
                     </div>
                 </details>
 
                 <!-- Generation Action -->
                 <div class="pt-2">
-                    <button id="generateBtn" class="glow-btn w-full py-4 rounded-xl font-extrabold text-base tracking-wide flex items-center justify-center gap-2">
-                        <span>✨ Synthesize Research Presentation</span>
+                    <button id="generateBtn" class="gamma-btn-primary w-full py-4 rounded-xl font-extrabold text-base tracking-wide flex items-center justify-center gap-2">
+                        <span>✨ Generate Presentation Deck</span>
                     </button>
-                    <div id="progressStatus" class="hidden text-center text-xs text-emerald-400 mt-2 font-medium animate-pulse"></div>
+                    <div id="progressStatus" class="hidden text-center text-xs text-emerald-400 mt-3 font-semibold animate-pulse font-mono"></div>
                 </div>
 
             </div>
         </div>
 
-        <!-- Presentation Deck Studio & Live Carousel -->
-        <div id="studioPlaceholder" class="text-center py-12 border-2 border-dashed border-gray-800 rounded-2xl max-w-4xl mx-auto">
+        <!-- Placeholder before generation -->
+        <div id="studioPlaceholder" class="text-center py-16 border-2 border-dashed border-white/10 rounded-2xl max-w-4xl mx-auto">
             <svg class="w-12 h-12 text-gray-600 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
             </svg>
-            <h3 class="text-gray-400 font-semibold text-base">Your Academic Presentation Studio will activate here</h3>
-            <p class="text-gray-500 text-xs mt-1">Specify your topic above and hit Synthesize to preview slides in real time.</p>
+            <h3 class="text-gray-300 font-bold text-base">Your Gamma-Style Studio is ready</h3>
+            <p class="text-gray-500 text-xs mt-1">Specify your topic above and hit Generate to see the interactive Bento cards appear!</p>
         </div>
 
-        <div id="studioDeckSection" class="hidden space-y-6 max-w-5xl mx-auto">
+        <!-- Presentation Studio Section (Activated upon generation) -->
+        <div id="studioDeckSection" class="hidden space-y-8 max-w-5xl mx-auto">
             
             <!-- Controls & Action Header -->
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 glass-panel p-4">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 bento-card p-4">
                 <div>
-                    <h2 id="deckMainTitle" class="text-lg font-bold text-white truncate max-w-md">Presentation Title</h2>
-                    <span id="slideCounter" class="text-xs text-emerald-400 font-medium">Slide 1 of 10</span>
+                    <h2 id="deckMainTitle" class="text-lg font-extrabold text-white truncate max-w-md">Presentation Title</h2>
+                    <span id="slideCounter" class="text-xs text-emerald-400 font-bold">Slide 1 of 10</span>
                 </div>
 
                 <div class="flex items-center gap-2 flex-wrap">
-                    <button id="prevSlideBtn" class="px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-semibold border border-gray-700 flex items-center gap-1 transition">
+                    <button id="prevSlideBtn" class="gamma-btn-secondary text-xs flex items-center gap-1">
                         ◀ Prev
                     </button>
-                    <button id="nextSlideBtn" class="px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-semibold border border-gray-700 flex items-center gap-1 transition">
+                    <button id="nextSlideBtn" class="gamma-btn-secondary text-xs flex items-center gap-1">
                         Next ▶
                     </button>
-                    <button id="fullscreenBtn" class="px-3.5 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-semibold border border-gray-700 flex items-center gap-1.5 transition">
-                        🖥️ Fullscreen Present
+                    <button id="fullscreenBtn" class="gamma-btn-secondary text-xs flex items-center gap-1.5">
+                        🖥️ Present
                     </button>
-                    <button id="downloadPptxBtn" class="glow-btn px-4 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5">
+                    <button id="downloadPptxBtn" class="gamma-btn-primary py-2 px-4 text-xs font-bold flex items-center gap-1.5">
                         <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
                         Download .PPTX
                     </button>
                 </div>
             </div>
 
-            <!-- 16:9 Presentation Stage -->
-            <div class="slide-stage-container border border-gray-800" id="slideStage">
-                <!-- Dynamically injected slide content -->
+            <!-- VIEW 1: 16:9 Presentation Stage Mode -->
+            <div id="stageContainerWrapper">
+                <div class="gamma-deck-stage" id="slideStage">
+                    <!-- Dynamically injected Bento Slide Content -->
+                </div>
+            </div>
+
+            <!-- VIEW 2: Continuous Document Mode (Gamma Document Scroll) -->
+            <div id="documentContainerWrapper" class="hidden gamma-document-container">
+                <!-- Dynamically injected document cards -->
             </div>
 
             <!-- Thumbnail Strip (Smooth 25-Slide Scroller) -->
-            <div class="glass-panel p-3">
-                <div class="text-[11px] text-gray-400 font-semibold mb-2 uppercase tracking-wider">
-                    SLIDE DECK OVERVIEW (CLICK ANY SLIDE TO JUMP):
+            <div class="bento-card p-4">
+                <div class="text-[11px] text-gray-400 font-bold mb-2.5 uppercase tracking-wider flex items-center justify-between">
+                    <span>CARD DECK OUTLINE (CLICK TO NAVIGATE):</span>
+                    <span id="totalCardsCountBadge" class="gamma-pill text-[10px] py-0.5 px-2">10 CARDS</span>
                 </div>
-                <div id="thumbnailStrip" class="thumbnail-track flex gap-2.5 overflow-x-auto pb-2">
+                <div id="thumbnailStrip" class="flex gap-3 overflow-x-auto pb-2">
                     <!-- Dynamic Thumbnails -->
                 </div>
             </div>
 
-            <!-- Academic Presenter Script / Viva Notes Drawer -->
-            <div class="glass-panel p-5 border border-emerald-500/30 bg-emerald-950/20">
+            <!-- Presenter Script Drawer -->
+            <div class="bento-card p-5 border border-emerald-500/30 bg-emerald-950/15">
                 <div class="flex items-center gap-2 mb-2 text-emerald-400">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"></path>
                     </svg>
-                    <h4 class="text-xs font-bold uppercase tracking-wider">🎙️ Academic Presenter Script (Defense / Seminar Talking Points):</h4>
+                    <h4 class="text-xs font-bold uppercase tracking-wider">🎙️ Gamma Presenter Script (Talking points for defense / viva):</h4>
                 </div>
                 <p id="speakerNotesContent" class="text-xs sm:text-sm text-gray-300 leading-relaxed font-sans">
-                    Presenter script will load here for each slide...
+                    Presenter script will load here for each card...
                 </p>
             </div>
 
@@ -285,8 +305,8 @@
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-gray-800/80 bg-[#070A11] py-6 text-center text-xs text-gray-500">
-        <p>SlideCraft AI — Built for Students & Academic Researchers worldwide. 100% Free & Open Source.</p>
+    <footer class="border-t border-white/10 bg-[#07090D] py-6 text-center text-xs text-gray-500">
+        <p>SlideCraft AI (Gamma Edition) — Engineered for Students, Scholars & Researchers.</p>
         <p class="mt-1">Compatible with Microsoft PowerPoint, Google Slides, LibreOffice, and Apple Keynote.</p>
     </footer>
 

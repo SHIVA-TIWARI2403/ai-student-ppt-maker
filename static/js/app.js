@@ -1,26 +1,27 @@
 /**
- * SlideCraft AI - Presentation Studio Controller
- * Academic presentation generator with 25-slide capacity, formal definition, deep theory, and background overlays.
+ * SlideCraft AI - Gamma-Style Frontend Studio Controller
+ * Handles Bento Card rendering, dual view modes (Slide Deck vs Continuous Document), and .PPTX export.
  */
 
 let currentPresentation = null;
 let currentSlideIndex = 0;
 let currentTheme = "cyber_emerald";
 let includeBackground = true;
+let currentViewMode = "deck"; // "deck" or "document"
 
 const THEME_STYLES = {
     cyber_emerald: {
         bg: "#0D1117",
-        cardBg: "#161B22",
-        cardBorder: "#30363D",
-        textPrimary: "#F0F6FC",
-        textSecondary: "#8B949E",
+        cardBg: "#151B28",
+        cardBorder: "rgba(255, 255, 255, 0.08)",
+        textPrimary: "#F8FAFC",
+        textSecondary: "#94A3B8",
         accent: "#10B981"
     },
     academic_navy: {
         bg: "#0B132B",
-        cardBg: "#1C2541",
-        cardBorder: "#3A506B",
+        cardBg: "#141D32",
+        cardBorder: "rgba(255, 255, 255, 0.08)",
         textPrimary: "#FFFFFF",
         textSecondary: "#94A3B8",
         accent: "#48CAE4"
@@ -35,16 +36,16 @@ const THEME_STYLES = {
     },
     vibrant_sunset: {
         bg: "#1E112A",
-        cardBg: "#2D1B3E",
-        cardBorder: "#4E2B6B",
+        cardBg: "#291937",
+        cardBorder: "rgba(255, 255, 255, 0.08)",
         textPrimary: "#FFFFFF",
         textSecondary: "#D1C4E9",
         accent: "#F43F5E"
     },
     ocean_cyan: {
         bg: "#071E26",
-        cardBg: "#0D2E3A",
-        cardBorder: "#1B4D5F",
+        cardBg: "#0C2733",
+        cardBorder: "rgba(255, 255, 255, 0.08)",
         textPrimary: "#E0F2FE",
         textSecondary: "#7DD3FC",
         accent: "#06B6D4"
@@ -55,7 +56,33 @@ document.addEventListener("DOMContentLoaded", () => {
     initThemeSelector();
     initPresetTopics();
     initEventListeners();
+    initViewModeSwitch();
 });
+
+function initViewModeSwitch() {
+    const deckBtn = document.getElementById("viewDeckBtn");
+    const docBtn = document.getElementById("viewDocBtn");
+
+    if (!deckBtn || !docBtn) return;
+
+    deckBtn.addEventListener("click", () => {
+        currentViewMode = "deck";
+        deckBtn.className = "px-3.5 py-1.5 rounded-lg bg-emerald-500 text-white font-bold transition flex items-center gap-1.5 shadow-sm";
+        docBtn.className = "px-3.5 py-1.5 rounded-lg text-gray-400 hover:text-white transition flex items-center gap-1.5";
+        document.getElementById("stageContainerWrapper").classList.remove("hidden");
+        document.getElementById("documentContainerWrapper").classList.add("hidden");
+        renderCurrentSlide();
+    });
+
+    docBtn.addEventListener("click", () => {
+        currentViewMode = "document";
+        docBtn.className = "px-3.5 py-1.5 rounded-lg bg-emerald-500 text-white font-bold transition flex items-center gap-1.5 shadow-sm";
+        deckBtn.className = "px-3.5 py-1.5 rounded-lg text-gray-400 hover:text-white transition flex items-center gap-1.5";
+        document.getElementById("stageContainerWrapper").classList.add("hidden");
+        document.getElementById("documentContainerWrapper").classList.remove("hidden");
+        renderContinuousDocument();
+    });
+}
 
 function initThemeSelector() {
     const cards = document.querySelectorAll(".theme-card");
@@ -65,7 +92,11 @@ function initThemeSelector() {
             card.classList.add("active");
             currentTheme = card.dataset.theme;
             if (currentPresentation) {
-                renderCurrentSlide();
+                if (currentViewMode === "deck") {
+                    renderCurrentSlide();
+                } else {
+                    renderContinuousDocument();
+                }
             }
         });
     });
@@ -90,7 +121,7 @@ function initEventListeners() {
     document.getElementById("downloadPptxBtn").addEventListener("click", handleDownloadPptx);
 
     document.addEventListener("keydown", (e) => {
-        if (!currentPresentation) return;
+        if (!currentPresentation || currentViewMode !== "deck") return;
         if (e.key === "ArrowLeft") navigateSlide(-1);
         if (e.key === "ArrowRight") navigateSlide(1);
     });
@@ -99,7 +130,7 @@ function initEventListeners() {
 async function handleGenerateDeck() {
     const topic = document.getElementById("topicInput").value.trim();
     if (!topic) {
-        alert("Please specify your presentation or research defense topic.");
+        alert("Please enter a research or presentation topic.");
         document.getElementById("topicInput").focus();
         return;
     }
@@ -114,11 +145,11 @@ async function handleGenerateDeck() {
     const btn = document.getElementById("generateBtn");
     const originalBtnHtml = btn.innerHTML;
     btn.disabled = true;
-    btn.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg> Synthesizing ${slideCount} Academic Slides...`;
+    btn.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg> Generating Gamma Bento Cards...`;
 
     const progressDiv = document.getElementById("progressStatus");
     progressDiv.classList.remove("hidden");
-    progressDiv.innerText = `Conducting theoretical literature review and assembling ${slideCount} structured slides...`;
+    progressDiv.innerText = `Synthesizing ${slideCount} modular Bento cards with formal definition & deep theory...`;
 
     try {
         const response = await fetch("/api/generate", {
@@ -147,7 +178,9 @@ async function handleGenerateDeck() {
 
         document.getElementById("studioPlaceholder").classList.add("hidden");
         document.getElementById("studioDeckSection").classList.remove("hidden");
-        
+        document.getElementById("viewModeContainer").classList.remove("hidden");
+        document.getElementById("totalCardsCountBadge").innerText = `${currentPresentation.slides.length} CARDS`;
+
         renderThumbnails();
         renderCurrentSlide();
 
@@ -169,6 +202,15 @@ function navigateSlide(direction) {
     renderCurrentSlide();
 }
 
+function formatBullets(bullets, theme) {
+    return bullets.map(b => {
+        if (b.includes("**")) {
+            return b.replace(/\*\*(.*?)\*\*/g, `<strong style="color:${theme.accent}">$1</strong>`);
+        }
+        return b;
+    }).map(b => `<li class="mb-2.5 flex items-start gap-2.5 text-xs sm:text-sm"><span style="color:${theme.accent}" class="mt-0.5">•</span><span>${b}</span></li>`).join("");
+}
+
 function renderCurrentSlide() {
     if (!currentPresentation || !currentPresentation.slides) return;
     const slides = currentPresentation.slides;
@@ -180,17 +222,15 @@ function renderCurrentSlide() {
     document.getElementById("speakerNotesContent").innerText = slide.speaker_notes || "No presenter script for this slide.";
 
     const stage = document.getElementById("slideStage");
-    
-    // Background Wallpaper
     const bgUrl = slide.preview_bg_url || "";
     const bgStyle = (includeBackground && bgUrl) 
-        ? `background: linear-gradient(rgba(10, 15, 26, 0.88), rgba(10, 15, 26, 0.94)), url('${bgUrl}') center/cover no-repeat;` 
+        ? `background: linear-gradient(rgba(9, 11, 16, 0.90), rgba(9, 11, 16, 0.96)), url('${bgUrl}') center/cover no-repeat;` 
         : `background: ${theme.bg};`;
 
     stage.setAttribute("style", bgStyle);
     stage.style.color = theme.textPrimary;
 
-    const tag = slide.tag || "RESEARCH MODULE";
+    const tag = slide.tag || "MODULE";
     const title = slide.title || "";
     const subtitle = slide.subtitle || "";
     const bullets = slide.bullet_points || [];
@@ -199,122 +239,146 @@ function renderCurrentSlide() {
     const formalDef = slide.formal_definition || "";
     const closingMsg = slide.closing_message || "";
 
-    const formattedBullets = bullets.map(b => {
-        if (b.includes("**")) {
-            return b.replace(/\*\*(.*?)\*\*/g, `<strong style="color:${theme.accent}">$1</strong>`);
-        }
-        return b;
-    }).map(b => `<li class="mb-2.5 flex items-start gap-2.5 text-xs md:text-sm"><span style="color:${theme.accent}" class="mt-0.5">•</span><span>${b}</span></li>`).join("");
+    const formattedBullets = formatBullets(bullets, theme);
 
     let contentHtml = "";
 
-    // =========================================================
-    // SLIDE 1: FORMAL CONCEPT DEFINITION & RESEARCH SCOPE
-    // =========================================================
+    // =========================================================================
+    // SLIDE 1: GAMMA HERO BENTO COVER (DEFINITION & PREMISE)
+    // =========================================================================
     if (currentSlideIndex === 0 || slide.layout_type === "title") {
         contentHtml = `
-            <div class="h-full w-full p-8 md:p-12 flex flex-col justify-between slide-content-active">
+            <div class="h-full w-full p-7 md:p-10 flex flex-col justify-between gamma-active-slide">
+                <!-- Header -->
                 <div>
-                    <span class="inline-block px-3 py-1 rounded text-xs font-bold tracking-wider mb-3 uppercase" style="background:${theme.accent}; color:${theme.bg}">
-                        ${tag}
-                    </span>
-                    <h1 class="text-3xl md:text-4xl font-black tracking-tight" style="color:${theme.textPrimary}">${title}</h1>
-                    <p class="text-xs md:text-sm font-medium mt-1" style="color:${theme.textSecondary}">${subtitle}</p>
+                    <span class="gamma-pill mb-2">${tag}</span>
+                    <h1 class="text-2xl md:text-4xl font-black tracking-tight" style="color:${theme.textPrimary}">${title}</h1>
+                    <p class="text-xs md:text-sm mt-1" style="color:${theme.textSecondary}">${subtitle}</p>
+                </div>
 
-                    <!-- Formal Academic Definition Box -->
-                    <div class="mt-4 p-4 rounded-xl border" style="background:${theme.cardBg}; border-color:${theme.accent}; box-shadow: 0 0 15px rgba(16, 185, 129, 0.15)">
-                        <span class="text-[11px] font-extrabold uppercase tracking-wider block mb-1" style="color:${theme.accent}">
-                            📖 FORMAL ACADEMIC DEFINITION & PREMISE:
-                        </span>
-                        <p class="text-xs md:text-sm leading-relaxed" style="color:${theme.textPrimary}">
-                            ${formalDef || "Systematic theoretical and engineering framework governing mathematical abstraction, computational pipeline optimization, and deterministic evaluation criteria."}
-                        </p>
+                <!-- Bento Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-5 my-auto items-stretch">
+                    
+                    <!-- Left Bento Box: Definition & Scope -->
+                    <div class="md:col-span-7 p-6 rounded-2xl border flex flex-col justify-between" style="background:${theme.cardBg}; border-color:${theme.cardBorder}">
+                        <div>
+                            <!-- Formal Definition Callout -->
+                            <div class="p-3.5 rounded-xl border mb-3" style="background:rgba(16, 185, 129, 0.08); border-color:${theme.accent}">
+                                <span class="text-[10px] font-black uppercase tracking-wider block mb-1" style="color:${theme.accent}">
+                                    📖 FORMAL ACADEMIC DEFINITION & CORE PREMISE:
+                                </span>
+                                <p class="text-xs leading-relaxed" style="color:${theme.textPrimary}">
+                                    ${formalDef || "Systematic theoretical and engineering framework governing mathematical abstraction, computational pipeline optimization, and deterministic evaluation criteria."}
+                                </p>
+                            </div>
+
+                            <!-- Bullet Points -->
+                            <ul class="space-y-1">
+                                ${formattedBullets}
+                            </ul>
+                        </div>
                     </div>
+
+                    <!-- Right Bento Box: 3D Visual & Metric Frame -->
+                    <div class="md:col-span-5 p-5 rounded-2xl border flex flex-col justify-between relative overflow-hidden" style="background:${theme.cardBg}; border-color:${theme.cardBorder}">
+                        <div class="rounded-xl overflow-hidden border border-white/10 h-[190px] relative">
+                            <img src="${imgUrl}" alt="${title}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&auto=format&fit=crop&q=80'"/>
+                        </div>
+                        ${stat ? `
+                            <div class="mt-3 p-2.5 rounded-xl text-center border font-mono font-bold text-xs" style="background:rgba(16, 185, 129, 0.1); border-color:${theme.accent}; color:${theme.accent}">
+                                ★ ${stat}
+                            </div>
+                        ` : ""}
+                    </div>
+
                 </div>
 
-                <!-- Theoretical Agenda Breakdown -->
-                <div class="p-4 rounded-xl border mt-3" style="background:${theme.cardBg}; border-color:${theme.cardBorder}">
-                    <ul class="space-y-1">
-                        ${formattedBullets}
-                    </ul>
-                </div>
-
-                <div class="flex items-center justify-between text-xs mt-3 pt-2 border-t border-gray-800" style="color:${theme.textSecondary}">
-                    <span>${currentPresentation.target_audience || "Doctoral & Master's Defense"}</span>
-                    ${stat ? `<span class="px-3 py-1 rounded-full font-bold" style="border: 1px solid ${theme.accent}; color:${theme.accent}">★ ${stat}</span>` : ""}
+                <!-- Footer Info -->
+                <div class="flex items-center justify-between text-xs pt-1 border-t border-white/5" style="color:${theme.textSecondary}">
+                    <span>${currentPresentation.target_audience || "Master's & Doctoral Defense"}</span>
+                    <span>1 / ${slides.length}</span>
                 </div>
             </div>
         `;
     }
-    // =========================================================
-    // FINAL SLIDE: DEDICATED CLOSING & THANK YOU / Q&A
-    // =========================================================
+    // =========================================================================
+    // FINAL SLIDE: GAMMA THANK YOU & DEFENSE Q&A CLOSING
+    // =========================================================================
     else if (currentSlideIndex === slides.length - 1 || slide.layout_type === "thank_you") {
         contentHtml = `
-            <div class="h-full w-full p-8 md:p-12 flex flex-col justify-between slide-content-active text-center" style="background: radial-gradient(circle at center, ${theme.cardBg} 0%, rgba(10, 15, 26, 0.95) 100%);">
+            <div class="h-full w-full p-7 md:p-10 flex flex-col justify-between gamma-active-slide text-center">
+                <!-- Header -->
                 <div>
-                    <span class="inline-block px-3 py-1 rounded text-xs font-bold tracking-wider mb-3 uppercase" style="background:${theme.accent}; color:${theme.bg}">
-                        DEFENSE CONCLUSION & ACKNOWLEDGMENTS
-                    </span>
+                    <span class="gamma-pill mb-2">DEFENSE CONCLUSION</span>
                     <h2 class="text-3xl md:text-5xl font-black tracking-tight" style="color:${theme.textPrimary}">
                         Thank You for Your Time & Attention
                     </h2>
-                    <p class="text-sm md:text-lg font-medium mt-2" style="color:${theme.accent}">
+                    <p class="text-xs md:text-base font-semibold mt-1" style="color:${theme.accent}">
                         Floor is now Open for Questions, Academic Inquiries & Constructive Feedback
                     </p>
                 </div>
 
-                <!-- Courteous Closing Note -->
-                <div class="max-w-2xl mx-auto p-5 rounded-xl border text-left" style="background:${theme.cardBg}; border-color:${theme.accent}">
-                    <p class="text-xs md:text-sm leading-relaxed italic" style="color:${theme.textPrimary}">
-                        "${closingMsg || "We express our sincere gratitude to our academic mentors, thesis advisory committee, and fellow researchers whose guidance has made this investigation possible."}"
-                    </p>
+                <!-- Bento Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-5 my-auto text-left items-stretch">
+                    <!-- Left Bento: Takeaways -->
+                    <div class="md:col-span-6 p-5 rounded-2xl border flex flex-col justify-between" style="background:${theme.cardBg}; border-color:${theme.cardBorder}">
+                        <span class="gamma-pill text-[10px] mb-2 self-start">KEY TAKEAWAYS</span>
+                        <ul class="space-y-1 my-auto">
+                            ${formattedBullets}
+                        </ul>
+                    </div>
+
+                    <!-- Right Bento: Acknowledgments & Q&A Forum -->
+                    <div class="md:col-span-6 p-5 rounded-2xl border flex flex-col justify-between" style="background:${theme.cardBg}; border-color:${theme.accent}">
+                        <div>
+                            <span class="gamma-pill text-[10px] mb-2">ACKNOWLEDGMENTS</span>
+                            <p class="text-xs leading-relaxed italic mt-2" style="color:${theme.textPrimary}">
+                                "${closingMsg || "We express sincere gratitude to our academic mentors, thesis advisory committee, and peer researchers whose critical insights have enriched this investigation."}"
+                            </p>
+                        </div>
+
+                        <div class="mt-4 p-3 rounded-xl text-center font-extrabold text-xs uppercase tracking-wider" style="background:${theme.accent}; color:#090B10">
+                            💬 OPEN FOR QUESTIONS & ANSWERS (Q&A)
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Key Takeaways Recap -->
-                <div class="max-w-3xl mx-auto text-left p-4 rounded-xl border" style="background:${theme.cardBg}; border-color:${theme.cardBorder}">
-                    <ul class="space-y-1">
-                        ${formattedBullets}
-                    </ul>
-                </div>
-
-                <div class="flex items-center justify-center gap-3">
-                    <span class="px-5 py-2 rounded-xl text-xs font-extrabold uppercase tracking-wider" style="background:${theme.accent}; color:${theme.bg}">
-                        💬 OPEN FOR QUESTIONS & DISCUSSION (Q&A)
-                    </span>
+                <!-- Footer -->
+                <div class="text-right text-xs" style="color:${theme.textSecondary}">
+                    ${currentSlideIndex + 1} / ${slides.length}
                 </div>
             </div>
         `;
     }
-    // =========================================================
-    // STANDARD / DEEP THEORY CONTENT SLIDES
-    // =========================================================
+    // =========================================================================
+    // MIDDLE SLIDES: GAMMA BENTO GRIDS
+    // =========================================================================
     else {
         contentHtml = `
-            <div class="h-full w-full p-6 md:p-8 flex flex-col justify-between slide-content-active">
+            <div class="h-full w-full p-6 md:p-8 flex flex-col justify-between gamma-active-slide">
                 <!-- Header -->
                 <div>
-                    <span class="inline-block px-2.5 py-0.5 rounded text-[11px] font-bold tracking-wider mb-1 uppercase" style="background:${theme.accent}; color:${theme.bg}">
-                        ${tag}
-                    </span>
-                    <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight" style="color:${theme.textPrimary}">${title}</h2>
-                    ${subtitle ? `<p class="text-xs mt-1" style="color:${theme.textSecondary}">${subtitle}</p>` : ""}
+                    <span class="gamma-pill mb-1.5">${tag}</span>
+                    <h2 class="text-xl md:text-3xl font-extrabold tracking-tight" style="color:${theme.textPrimary}">${title}</h2>
+                    ${subtitle ? `<p class="text-xs mt-0.5" style="color:${theme.textSecondary}">${subtitle}</p>` : ""}
                 </div>
 
-                <!-- Main Content Grid -->
+                <!-- Bento Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-5 my-auto items-stretch">
-                    <div class="md:col-span-7 p-5 rounded-xl border flex flex-col justify-between" style="background:${theme.cardBg}; border-color:${theme.cardBorder}">
+                    <!-- Text Bento Card -->
+                    <div class="md:col-span-7 p-6 rounded-2xl border flex flex-col justify-between" style="background:${theme.cardBg}; border-color:${theme.cardBorder}">
                         <ul class="space-y-1.5">
                             ${formattedBullets}
                         </ul>
                         ${stat ? `
-                            <div class="mt-3 p-2 rounded-lg text-xs font-bold text-center border" style="background:${theme.bg}; border-color:${theme.accent}; color:${theme.accent}">
+                            <div class="mt-3 p-2 rounded-xl text-xs font-mono font-bold text-center border" style="background:rgba(16, 185, 129, 0.08); border-color:${theme.accent}; color:${theme.accent}">
                                 💡 Empirical Benchmark: ${stat}
                             </div>
                         ` : ""}
                     </div>
 
-                    <div class="md:col-span-5 rounded-xl overflow-hidden border relative flex items-center justify-center min-h-[220px]" style="background:${theme.cardBg}; border-color:${theme.cardBorder}">
+                    <!-- Visual Bento Card -->
+                    <div class="md:col-span-5 rounded-2xl overflow-hidden border border-white/10 relative flex items-center justify-center min-h-[220px]" style="background:${theme.cardBg}">
                         <img src="${imgUrl}" alt="${title}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&auto=format&fit=crop&q=80'"/>
                     </div>
                 </div>
@@ -330,6 +394,66 @@ function renderCurrentSlide() {
     highlightActiveThumbnail();
 }
 
+function renderContinuousDocument() {
+    const docWrapper = document.getElementById("documentContainerWrapper");
+    if (!docWrapper || !currentPresentation || !currentPresentation.slides) return;
+    const theme = THEME_STYLES[currentTheme] || THEME_STYLES["cyber_emerald"];
+
+    docWrapper.innerHTML = "";
+
+    currentPresentation.slides.forEach((slide, idx) => {
+        const card = document.createElement("div");
+        card.className = "gamma-doc-card";
+        card.style.background = theme.cardBg;
+        card.style.borderColor = theme.cardBorder;
+
+        const tag = slide.tag || "MODULE";
+        const title = slide.title || "";
+        const subtitle = slide.subtitle || "";
+        const bullets = slide.bullet_points || [];
+        const stat = slide.stat_or_highlight || "";
+        const imgUrl = slide.preview_image_url || "";
+        const formalDef = slide.formal_definition || "";
+
+        const formattedBullets = formatBullets(bullets, theme);
+
+        card.innerHTML = `
+            <div class="flex items-center justify-between mb-4">
+                <span class="gamma-pill text-xs">${tag}</span>
+                <span class="text-xs font-mono text-gray-500">CARD #${idx + 1}</span>
+            </div>
+            <h2 class="text-2xl md:text-3xl font-extrabold mb-1" style="color:${theme.textPrimary}">${title}</h2>
+            ${subtitle ? `<p class="text-sm mb-6" style="color:${theme.textSecondary}">${subtitle}</p>` : ""}
+
+            ${formalDef ? `
+                <div class="p-4 rounded-xl border mb-6" style="background:rgba(16, 185, 129, 0.08); border-color:${theme.accent}">
+                    <span class="text-[11px] font-black uppercase tracking-wider block mb-1" style="color:${theme.accent}">
+                        📖 FORMAL ACADEMIC DEFINITION & PREMISE:
+                    </span>
+                    <p class="text-sm leading-relaxed" style="color:${theme.textPrimary}">${formalDef}</p>
+                </div>
+            ` : ""}
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                <div class="md:col-span-7">
+                    <ul class="space-y-2">
+                        ${formattedBullets}
+                    </ul>
+                    ${stat ? `
+                        <div class="mt-4 p-2.5 rounded-xl text-xs font-mono font-bold border" style="background:rgba(16, 185, 129, 0.08); border-color:${theme.accent}; color:${theme.accent}">
+                            💡 Empirical Benchmark: ${stat}
+                        </div>
+                    ` : ""}
+                </div>
+                <div class="md:col-span-5 rounded-2xl overflow-hidden border border-white/10 h-[220px]">
+                    <img src="${imgUrl}" alt="${title}" class="w-full h-full object-cover"/>
+                </div>
+            </div>
+        `;
+        docWrapper.appendChild(card);
+    });
+}
+
 function renderThumbnails() {
     const container = document.getElementById("thumbnailStrip");
     container.innerHTML = "";
@@ -338,15 +462,17 @@ function renderThumbnails() {
 
     currentPresentation.slides.forEach((slide, idx) => {
         const thumb = document.createElement("div");
-        thumb.className = `cursor-pointer rounded-lg p-2 border text-left transition-all ${idx === currentSlideIndex ? 'ring-2 ring-emerald-500 border-emerald-500' : 'border-gray-800 bg-gray-900/70 opacity-70 hover:opacity-100'}`;
-        thumb.style.minWidth = "150px";
+        thumb.className = `cursor-pointer rounded-xl p-2.5 border text-left transition-all ${idx === currentSlideIndex ? 'ring-2 ring-emerald-500 border-emerald-500 bg-[#151B28]' : 'border-white/10 bg-[#090B10] opacity-70 hover:opacity-100'}`;
+        thumb.style.minWidth = "160px";
         thumb.innerHTML = `
-            <div class="text-[10px] font-bold text-emerald-400">#${idx + 1} ${slide.tag || "MODULE"}</div>
-            <div class="text-xs font-semibold truncate text-white mt-1">${slide.title || "Untitled"}</div>
+            <div class="text-[10px] font-bold text-emerald-400 font-mono">#${idx + 1} ${slide.tag || "CARD"}</div>
+            <div class="text-xs font-bold truncate text-white mt-1">${slide.title || "Untitled"}</div>
         `;
         thumb.addEventListener("click", () => {
             currentSlideIndex = idx;
-            renderCurrentSlide();
+            if (currentViewMode === "deck") {
+                renderCurrentSlide();
+            }
         });
         container.appendChild(thumb);
     });
@@ -356,10 +482,10 @@ function highlightActiveThumbnail() {
     const thumbs = document.querySelectorAll("#thumbnailStrip > div");
     thumbs.forEach((t, i) => {
         if (i === currentSlideIndex) {
-            t.className = "cursor-pointer rounded-lg p-2 border text-left transition-all ring-2 ring-emerald-500 border-emerald-500 bg-gray-800";
+            t.className = "cursor-pointer rounded-xl p-2.5 border text-left transition-all ring-2 ring-emerald-500 border-emerald-500 bg-[#151B28]";
             t.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
         } else {
-            t.className = "cursor-pointer rounded-lg p-2 border text-left transition-all border-gray-800 bg-gray-900/70 opacity-70 hover:opacity-100";
+            t.className = "cursor-pointer rounded-xl p-2.5 border text-left transition-all border-white/10 bg-[#090B10] opacity-70 hover:opacity-100";
         }
     });
 }
@@ -370,7 +496,7 @@ async function handleDownloadPptx() {
     const btn = document.getElementById("downloadPptxBtn");
     const originalText = btn.innerHTML;
     btn.disabled = true;
-    btn.innerHTML = `<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg> Compiling PPTX Deck...`;
+    btn.innerHTML = `<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg> Compiling Gamma Bento PPTX...`;
 
     try {
         const includeImages = document.getElementById("toggleImages").checked;
@@ -392,7 +518,7 @@ async function handleDownloadPptx() {
         const data = await res.json();
         const a = document.createElement("a");
         a.href = data.download_url;
-        a.download = `${currentPresentation.presentation_title || 'Academic_Presentation'}.pptx`;
+        a.download = `${currentPresentation.presentation_title || 'Gamma_Presentation'}.pptx`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);

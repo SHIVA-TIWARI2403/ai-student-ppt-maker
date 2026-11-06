@@ -1,100 +1,140 @@
-/* SlideCraft AI - Advanced Academic UI Styles */
+/* Gamma.app-Grade Design System & Typography */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
 :root {
-  --primary: #10b981;
-  --primary-glow: rgba(16, 185, 129, 0.25);
-  --bg-dark: #070a11;
-  --surface: #0f1523;
-  --surface-card: #151d30;
-  --border-color: #26334d;
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
+  --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --gamma-bg: #090B10;
+  --gamma-surface: #10141E;
+  --gamma-card: #151B28;
+  --gamma-card-hover: #1A2234;
+  --gamma-border: rgba(255, 255, 255, 0.08);
+  --gamma-border-active: rgba(16, 185, 129, 0.45);
+  --gamma-accent: #10B981;
+  --gamma-accent-glow: rgba(16, 185, 129, 0.25);
+  --gamma-text: #F8FAFC;
+  --gamma-text-muted: #94A3B8;
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-main);
 }
 
 body {
-  background-color: var(--bg-dark);
-  color: var(--text-main);
+  background-color: var(--gamma-bg);
+  color: var(--gamma-text);
   min-height: 100vh;
-  line-height: 1.5;
+  line-height: 1.6;
   overflow-x: hidden;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.12) 0%, transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(56, 189, 248, 0.06) 0%, transparent 50%);
 }
 
-/* Glassmorphism & High-End Panels */
-.glass-panel {
-  background: rgba(15, 21, 35, 0.82);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(59, 130, 246, 0.15);
-  border-radius: 16px;
-}
-
-.glow-btn {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  color: white;
-  box-shadow: 0 0 24px rgba(16, 185, 129, 0.35);
+/* Gamma Bento Card Architecture */
+.bento-card {
+  background: var(--gamma-card);
+  border: 1px solid var(--gamma-border);
+  border-radius: 18px;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
 }
 
-.glow-btn:hover {
+.bento-card:hover {
+  border-color: rgba(255, 255, 255, 0.15);
   transform: translateY(-2px);
-  box-shadow: 0 0 32px rgba(16, 185, 129, 0.55);
 }
 
-.theme-card {
+/* Gamma Glass Pill */
+.gamma-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--gamma-accent);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+/* Gamma Action Button */
+.gamma-btn-primary {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  color: white;
+  font-weight: 700;
+  border-radius: 14px;
+  padding: 14px 28px;
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.35);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.gamma-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 35px rgba(16, 185, 129, 0.55);
+}
+
+.gamma-btn-secondary {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--gamma-border);
+  color: var(--gamma-text);
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 8px 16px;
   transition: all 0.2s ease;
-  cursor: pointer;
-  border: 2px solid transparent;
 }
 
-.theme-card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(56, 189, 248, 0.4);
+.gamma-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
-.theme-card.active {
-  border-color: #10b981;
-  background: rgba(16, 185, 129, 0.08);
-  box-shadow: 0 0 16px rgba(16, 185, 129, 0.25);
-}
-
-/* 16:9 Presentation Stage */
-.slide-stage-container {
+/* 16:9 Stage Layout */
+.gamma-deck-stage {
   aspect-ratio: 16 / 9;
   width: 100%;
-  max-width: 1050px;
+  max-width: 1100px;
   margin: 0 auto;
   position: relative;
   overflow: hidden;
-  border-radius: 14px;
-  box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.85);
-  transition: all 0.35s ease;
+  border-radius: 20px;
+  box-shadow: 0 35px 70px -15px rgba(0, 0, 0, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.slide-bg-overlay {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  z-index: 1;
-}
-
-.slide-content-layer {
-  position: relative;
-  z-index: 2;
-  height: 100%;
+/* Continuous Document Mode for Gamma */
+.gamma-document-container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 900px;
+  margin: 0 auto;
   width: 100%;
 }
 
-@keyframes fadeInSlide {
+.gamma-doc-card {
+  background: var(--gamma-surface);
+  border: 1px solid var(--gamma-border);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animation */
+@keyframes gammaFadeIn {
   from {
     opacity: 0;
-    transform: scale(0.98) translateY(8px);
+    transform: scale(0.98) translateY(12px);
   }
   to {
     opacity: 1;
@@ -102,22 +142,22 @@ body {
   }
 }
 
-.slide-content-active {
-  animation: fadeInSlide 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.gamma-active-slide {
+  animation: gammaFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Custom Scrollbar for 25-Slide Thumbnail Track */
-.thumbnail-track::-webkit-scrollbar {
-  height: 6px;
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
-.thumbnail-track::-webkit-scrollbar-track {
-  background: #0b0f19;
+::-webkit-scrollbar-track {
+  background: #090B10;
+}
+::-webkit-scrollbar-thumb {
+  background: #1F293D;
   border-radius: 4px;
 }
-.thumbnail-track::-webkit-scrollbar-thumb {
-  background: #223048;
-  border-radius: 4px;
-}
-.thumbnail-track::-webkit-scrollbar-thumb:hover {
-  background: #3b82f6;
+::-webkit-scrollbar-thumb:hover {
+  background: #10B981;
 }
