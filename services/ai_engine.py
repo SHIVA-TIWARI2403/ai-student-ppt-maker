@@ -1,11 +1,9 @@
 """
 High-Impact, Punchy Student AI Engine for SlideCraft AI.
-Generates crazy cool, student-friendly presentations up to 25 slides:
-- Short, crisp, easy-to-understand plain English (NO heavy essay text!)
-- Simple, high-clarity concept definition on Slide 1
-- High-impact highlight statistics on every slide
-- Crazy cool Thank You & Q&A closing slide
-- Conversational presenter scripts for confident student viva/presentations
+Features:
+- Slide 1: Core Concept Definition & Scope
+- Middle Slides: Short, crisp, 2-3 bullet points with emojis (no heavy theory)
+- Final Slide: Pure, Minimalist "Thank You!" and Q&A (No keyword lists or takeaways!)
 """
 
 import os
@@ -17,57 +15,54 @@ from dotenv import load_dotenv
 load_dotenv()
 
 SYSTEM_PROMPT = """
-You are an award-winning creative presentation designer known for making complex topics super simple, crazy cool, and easy to present.
+You are an award-winning creative presentation designer.
 
 CORE DESIGN RULES:
-1. SHORT & PUNCHY: Maximum 2 to 3 bullet points per slide. Keep each bullet under 10 to 14 words!
-2. EASY PLAIN WORDING: Write in clear, engaging, conversational English. Zero boring academic jargon walls!
-3. SLIDE 1 CONCEPT DEFINITION:
-   - Provide a clear, simple 1-sentence definition: "What is it in simple words?"
-4. FINAL SLIDE:
-   - Dedicated "Thank You & Q&A" slide with an energetic closing and invitation for questions.
-5. CRAZY STATS & EMOJIS: Use emojis (⚡, 🚀, 🧠, 🛡️, 💡) and punchy highlight stats on every slide.
-6. OUTPUT FORMAT: Strictly valid JSON matching the schema.
+1. SLIDE 1: Must feature a simple, high-impact CORE CONCEPT definition in plain English.
+2. MIDDLE SLIDES: Maximum 2 to 3 short bullets per slide (under 12 words each!). Easy plain wording.
+3. FINAL SLIDE: PURE, CLEAN "THANK YOU!" ONLY. Do NOT add any summary keywords, takeaways, or bullet points to the final slide!
+4. EMOJIS & STATS: Use modern emojis (⚡, 🚀, 🧠, 🛡️, 💡) and punchy highlight stats.
+5. STRICT JSON output matching the requested schema.
 """
 
 def generate_academic_deep_deck(topic: str, slide_count: int, education_level: str = "College") -> dict:
     """
-    Punchy, student-friendly generator up to 25 slides with easy wording and high visual impact.
+    Punchy student-friendly generator with Core Concept on Slide 1 and pure Thank You on the final slide.
     """
     clean_topic = topic.strip().title()
     count = max(3, min(slide_count, 25))
 
     master_modules = [
-        # Slide 1: Concept Definition & Intro
+        # Slide 1: Core Concept Definition & Scope
         {
             "layout_type": "title",
             "tag": "CORE CONCEPT",
             "title": f"{clean_topic}",
-            "subtitle": "The Ultimate Student Guide: Concepts, Superpowers & Future Impact",
+            "subtitle": "The Complete Student Presentation & Guide",
             "formal_definition": f"In simple words, {clean_topic} is a breakthrough technology that replaces slow traditional systems with super-smart, automated processing to solve complex problems in seconds.",
             "bullet_points": [
                 f"🚀 **The Big Idea**: Why {clean_topic} is changing the world right now.",
                 "⚡ **Superpowers**: How it computes and automates at lightning speed.",
-                "🎯 **What We'll Cover**: Key basics, real-world magic, and future trends."
+                "🎯 **Key Roadmap**: Core basics, real-world magic, and future trends."
             ],
             "stat_or_highlight": "🚀 Next-Gen Tech 2026",
-            "image_prompt": f"Futuristic glowing conceptual 3d illustration of {clean_topic}, neon cyan and emerald, ultra-clean",
+            "image_prompt": f"Futuristic glowing conceptual 3d illustration of {clean_topic}, neon cyan and emerald, clean render",
             "speaker_notes": f"Hi everyone! Today we are exploring {clean_topic}. In simple words, it's all about making systems faster, smarter, and scalable."
         },
         # Slide 2: Why It Matters
         {
             "layout_type": "split_image_right",
             "tag": "THE BIG WHY",
-            "title": f"Why Everyone is Talking About It",
-            "subtitle": "The Old Way vs. The New Super-Smart Way",
+            "title": "Why Everyone is Talking About It",
+            "subtitle": "The Old Way vs. The Modern Breakthrough",
             "bullet_points": [
-                "🐢 **The Old Bottleneck**: Traditional methods were slow, expensive, and broke under pressure.",
-                "⚡ **The Modern Breakthrough**: {clean_topic} solves in minutes what used to take weeks.",
-                "💡 **Massive Impact**: Millions of users benefit every single day."
+                "🐢 **The Old Problem**: Traditional methods were slow, manual, and expensive.",
+                "⚡ **The Modern Leap**: Solves in minutes what used to take weeks of effort.",
+                "💡 **Massive Impact**: Millions of users and systems benefit every day."
             ],
             "stat_or_highlight": "⚡ 10x Faster Results",
-            "image_prompt": f"Comparison visual between old technology and futuristic glowing {clean_topic}, clean 3d render",
-            "speaker_notes": f"Why does this matter to us? Because old systems were too slow. {clean_topic} changes the game by speeding up everything."
+            "image_prompt": f"Comparison visual between old technology and futuristic glowing {clean_topic}, 3d render",
+            "speaker_notes": f"Why does this matter? Old approaches were too slow. Modern solutions accelerate everything by 10x."
         },
         # Slide 3: How It Works in 3 Steps
         {
@@ -93,7 +88,7 @@ def generate_academic_deep_deck(topic: str, slide_count: int, education_level: s
             "bullet_points": [
                 "⚡ **Speed**: Computes at mind-blowing rates without overheating.",
                 "🛡️ **Reliability**: Self-heals automatically if any component fails.",
-                "📈 **Scalability**: Handles 1 user or 100 million users without slowing down."
+                "📈 **Scalability**: Handles 1 user or 100 million users effortlessly."
             ],
             "stat_or_highlight": "🌟 99.9% Uptime",
             "image_prompt": f"Three floating glowing neon crystal pillars representing speed, reliability and scale",
@@ -159,42 +154,22 @@ def generate_academic_deep_deck(topic: str, slide_count: int, education_level: s
             "image_prompt": f"Futuristic digital horizon with flying autonomous drones and glowing neural networks, 3d render",
             "speaker_notes": f"Looking ahead to 2026 and beyond, we will see self-healing systems and supercomputers running on our phones."
         },
-        # Slide 9: Top 3 Takeaways
-        {
-            "layout_type": "deep_theory",
-            "tag": "SUMMARY",
-            "title": "Top 3 Things to Remember",
-            "subtitle": "The Short Summary for Your Exam & Viva",
-            "bullet_points": [
-                f"💡 **1. Core Concept**: {clean_topic} replaces slow legacy models with super-fast automation.",
-                "⚡ **2. Huge Wins**: Delivers 10x speed, 99.9% reliability, and cuts energy waste.",
-                "🚀 **3. The Future**: High student career demand across AI, software, and research."
-            ],
-            "stat_or_highlight": "🎯 100% Exam Ready",
-            "image_prompt": f"Golden shiny glowing lightbulb and graduation star on dark glass pedestal, 3d render",
-            "speaker_notes": f"If you remember just three things today: it's fast, it's reliable, and it's where the best future careers are."
-        },
-        # Slide 10: Final Thank You & Q&A Slide
+        # Final Slide: PURE THANK YOU ONLY (Zero keywords, zero takeaways!)
         {
             "layout_type": "thank_you",
-            "tag": "THAT'S A WRAP",
-            "title": "Thank You! Time for Q&A!",
-            "subtitle": "Questions? Ideas? Let's Discuss!",
-            "closing_message": "Huge thanks to our teachers, mentors, and classmates for listening! Now let's open the floor.",
-            "bullet_points": [
-                f"🎓 **Topic Wrapped**: {clean_topic} — Mastered!",
-                "💬 **Open Floor**: Ask me anything about the concepts or implementation.",
-                "📂 **Slides & Code**: Ready to download and explore anytime."
-            ],
-            "stat_or_highlight": "🎉 Ask Me Anything!",
-            "image_prompt": f"Celebratory sleek auditorium with glowing spotlight on presentation stage, modern minimalist 3d render",
-            "speaker_notes": f"Thank you so much everyone for your time! I'd love to take any questions or thoughts you have right now."
+            "tag": "THANK YOU",
+            "title": "Thank You!",
+            "subtitle": "Any Questions? Let's Discuss!",
+            "formal_definition": "",
+            "bullet_points": [], # Pure Thank You - No keyword pills or takeaways!
+            "stat_or_highlight": "💬 Q&A Time",
+            "image_prompt": "Celebratory minimal glowing presentation spotlight on dark stage",
+            "speaker_notes": "Thank you so much for your time and attention! I'm happy to take any questions now."
         }
     ]
 
-    # Dynamically scale up to count requested
     selected = []
-    # Always Slide 1 is Definition/Intro
+    # Always Slide 1 is Core Concept
     first_slide = dict(master_modules[0])
     first_slide["slide_number"] = 1
     selected.append(first_slide)
@@ -208,7 +183,7 @@ def generate_academic_deep_deck(topic: str, slide_count: int, education_level: s
             slide_copy["slide_number"] = i + 2
             selected.append(slide_copy)
 
-    # Always Last Slide is Thank You
+    # Always Last Slide is PURE THANK YOU
     if count > 1:
         closing_slide = dict(master_modules[-1])
         closing_slide["slide_number"] = count
@@ -216,58 +191,50 @@ def generate_academic_deep_deck(topic: str, slide_count: int, education_level: s
 
     return {
         "presentation_title": clean_topic,
-        "presentation_subtitle": "Student Presentation Guide — Concepts, Superpowers & Real-World Impact",
+        "presentation_subtitle": "Student Presentation Guide",
         "target_audience": education_level,
         "slides": selected
     }
 
 def generate_presentation_with_gemini(topic: str, slide_count: int, education_level: str = "College", api_key: str = None) -> dict:
     """
-    Calls Google Gemini for punchy, crazy cool, student-friendly slide generation.
-    Falls back to the punchy offline student engine.
+    Calls Google Gemini for punchy student deck with Core Concept on slide 1 and pure Thank You on final slide.
     """
     key = api_key or os.getenv("GEMINI_API_KEY")
     if not key or len(key.strip()) < 10:
-        print("[AIEngine] Using Punchy Student Slide Engine (Easy Plain English).")
+        print("[AIEngine] Using Clean Student Engine (Core Concept on Slide 1 & Pure Thank You).")
         return generate_academic_deep_deck(topic, slide_count, education_level)
 
     endpoint = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={key.strip()}"
     
     prompt = f"""
-Create an exciting, ultra-engaging, student-friendly presentation deck!
+Create an exciting, clean, student-friendly presentation deck!
 Topic: "{topic}"
 Slide Count: {slide_count}
 
-CRITICAL RULES:
-1. NO HEAVY PARAGRAPHS: Max 2 to 3 short bullet points per slide (under 12 words each!).
-2. EASY PLAIN WORDING: Write in clear, modern, punchy English that students can understand and present effortlessly.
-3. SLIDE 1 MUST HAVE A SIMPLE CONCEPT DEFINITION:
-   - 'formal_definition': "What is it in simple words?" (1 short crystal-clear sentence).
-4. LAST SLIDE MUST BE A FUN THANK YOU / Q&A SLIDE:
-   - Title: "Thank You! Time for Q&A!"
-   - Subtitle: "Any Questions? Fire Away!"
-5. EMOJIS & STATS: Use relevant emojis (⚡, 🚀, 🧠, 🛡️, 💡) and crazy cool highlight stats on every slide.
+MANDATORY RULES:
+1. SLIDE 1: Must feature a simple, easy-to-understand CORE CONCEPT definition in 'formal_definition'.
+2. MIDDLE SLIDES: Exactly 2 to 3 short bullets (under 12 words each!). Easy plain wording.
+3. FINAL SLIDE: PURE 'THANK YOU!' ONLY. Set 'bullet_points' to an empty array []. Do NOT include any summary takeaways, keywords, or bullet points on the final slide!
+4. EMOJIS & STATS: Use emojis (⚡, 🚀, 🧠, 🛡️, 💡) and punchy highlight stats.
 
-Output strictly valid JSON matching this schema:
+Output strictly valid JSON:
 {{
-  "presentation_title": "Short Catchy Title",
-  "presentation_subtitle": "Simple student subtitle",
+  "presentation_title": "Catchy Title",
+  "presentation_subtitle": "Student Guide",
   "target_audience": "{education_level}",
   "slides": [
     {{
       "slide_number": 1,
       "layout_type": "title",
       "tag": "CORE CONCEPT",
-      "title": "Catchy Heading",
-      "subtitle": "Short subtitle",
+      "title": "Title",
+      "subtitle": "Subtitle",
       "formal_definition": "What it is in simple words (1 easy sentence).",
-      "bullet_points": [
-        "🚀 **Key Idea**: Short punchy point under 12 words.",
-        "⚡ **Superpower**: Another short clear point."
-      ],
+      "bullet_points": ["🚀 **Key Idea**: Short punchy point."],
       "stat_or_highlight": "🚀 10x Faster",
-      "image_prompt": "Clean futuristic 3d illustration",
-      "speaker_notes": "Simple 2-sentence script for what the student should say."
+      "image_prompt": "Clean futuristic illustration",
+      "speaker_notes": "Simple 2-sentence script."
     }}
   ]
 }}
@@ -275,7 +242,7 @@ Output strictly valid JSON matching this schema:
 
     payload = {
         "contents": [{"parts": [{"text": SYSTEM_PROMPT}, {"text": prompt}]}],
-        "generationConfig": {"responseMimeType": "application/json", "temperature": 0.4}
+        "generationConfig": {"responseMimeType": "application/json", "temperature": 0.3}
     }
 
     try:
@@ -287,7 +254,10 @@ Output strictly valid JSON matching this schema:
             cleaned = re.sub(r'\s*```$', '', cleaned)
             parsed = json.loads(cleaned)
             if "slides" in parsed and len(parsed["slides"]) > 0:
-                print(f"[AIEngine] Generated {len(parsed['slides'])} punchy slides via Gemini!")
+                # Ensure last slide has empty bullets
+                parsed["slides"][-1]["bullet_points"] = []
+                parsed["slides"][-1]["title"] = "Thank You!"
+                parsed["slides"][-1]["subtitle"] = "Any Questions? Let's Discuss!"
                 return parsed
     except Exception as e:
         print(f"[AIEngine] Gemini note: {e}")

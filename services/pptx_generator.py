@@ -1,13 +1,8 @@
 """
 Gamma-Style Bento PPTX Generator for SlideCraft AI.
-Constructs modular, ultra-modern presentation decks inspired by Gamma.app:
-- Bento Grid card architectures (floating rounded cards with glass borders)
-- Slide 1: Formal Concept Definition Bento Box + Visual Spec Card
-- Middle Slides: 2-Column Split Bento, 3-Card Column Bento, and Metric Callout Cards
-- Final Slide: Dedicated Gamma-Style Closing & Thank You / Q&A Card
-- Full-bleed ambient thematic wallpaper with smart contrast dimming
-- Native OpenXML slide transitions (Fade, Push, Wipe, Zoom)
-- Presenter script embedded in notes for each slide
+- Slide 1: Core Concept Definition & Visual
+- Middle Slides: 2-3 Short Punchy Bullets with Emojis & Bento Cards
+- Final Slide: Pure, Minimalist "Thank You!" & Q&A (No keyword lists or takeaways!)
 """
 
 import os
@@ -44,7 +39,6 @@ def apply_slide_transition(slide, transition_type: str = "fade"):
         print(f"[PPTXGenerator] Transition warning: {e}")
 
 def create_gamma_card(slide, left, top, width, height, bg_rgb, border_rgb, border_width_pt=1.2):
-    """Creates a sleek rounded Bento card shape with subtle border, identical to Gamma."""
     shape = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, left, top, width, height)
     shape.fill.solid()
     shape.fill.fore_color.rgb = bg_rgb
@@ -53,7 +47,6 @@ def create_gamma_card(slide, left, top, width, height, bg_rgb, border_rgb, borde
     return shape
 
 def create_badge(slide, left, top, width, height, text, bg_rgb, text_rgb, font_name="Segoe UI"):
-    """Creates a Gamma-style pill badge with uppercase tracked text."""
     shape = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, left, top, width, height)
     shape.fill.solid()
     shape.fill.fore_color.rgb = bg_rgb
@@ -71,11 +64,11 @@ def create_badge(slide, left, top, width, height, text, bg_rgb, text_rgb, font_n
     p.font.color.rgb = text_rgb
     return shape
 
-def render_bullet_points(text_frame, bullet_points, theme, font_size=12):
+def render_bullet_points(text_frame, bullet_points, theme, font_size=13):
     text_frame.word_wrap = True
     for i, bp in enumerate(bullet_points):
         p = text_frame.paragraphs[0] if i == 0 else text_frame.add_paragraph()
-        p.space_after = Pt(7)
+        p.space_after = Pt(8)
         p.space_before = Pt(3)
         
         if "**" in bp:
@@ -103,7 +96,7 @@ def render_bullet_points(text_frame, bullet_points, theme, font_size=12):
 
 def build_presentation_pptx(presentation_data: dict, theme_name: str = "cyber_emerald", include_images: bool = True, include_background: bool = True) -> str:
     """
-    Builds a Gamma-grade Bento presentation deck up to 25 slides.
+    Builds clean Bento presentation with Core Concept on Slide 1 and pure Thank You on final slide.
     """
     theme = get_theme(theme_name)
     prs = Presentation()
@@ -113,7 +106,7 @@ def build_presentation_pptx(presentation_data: dict, theme_name: str = "cyber_em
     prs.slide_height = Inches(7.5)
     blank_layout = prs.slide_layouts[6]
 
-    topic_title = presentation_data.get("presentation_title", "Research Presentation")
+    topic_title = presentation_data.get("presentation_title", "Presentation")
     slides_data = presentation_data.get("slides", [])
     total_slides = len(slides_data)
 
@@ -122,7 +115,7 @@ def build_presentation_pptx(presentation_data: dict, theme_name: str = "cyber_em
         try:
             bg_image_path = fetch_background_image(topic_title, theme_name)
         except Exception as e:
-            print(f"[PPTXGenerator] Background fetch warning: {e}")
+            print(f"[PPTXGenerator] Background note: {e}")
 
     for idx, slide_info in enumerate(slides_data):
         slide = prs.slides.add_slide(blank_layout)
@@ -130,7 +123,7 @@ def build_presentation_pptx(presentation_data: dict, theme_name: str = "cyber_em
         # 1. Slide Animated Transition
         apply_slide_transition(slide, theme.get("transition", "fade"))
 
-        # 2. Ambient Background Canvas / Wallpaper
+        # 2. Ambient Background Canvas
         if bg_image_path and os.path.exists(bg_image_path):
             try:
                 slide.shapes.add_picture(bg_image_path, 0, 0, width=prs.slide_width, height=prs.slide_height)
@@ -150,17 +143,16 @@ def build_presentation_pptx(presentation_data: dict, theme_name: str = "cyber_em
         if speaker_notes:
             notes_slide = slide.notes_slide
             notes_text_frame = notes_slide.notes_text_frame
-            notes_text_frame.text = f"[Gamma Presenter Script]:\n{speaker_notes}"
+            notes_text_frame.text = f"[Presenter Script]:\n{speaker_notes}"
 
         layout_type = slide_info.get("layout_type", "split_image_right")
-        tag = slide_info.get("tag", "RESEARCH MODULE")
+        tag = slide_info.get("tag", "TOPIC")
         title = slide_info.get("title", "Presentation Slide")
         subtitle = slide_info.get("subtitle", "")
         bullets = slide_info.get("bullet_points", [])
         stat = slide_info.get("stat_or_highlight", "")
-        img_prompt = slide_info.get("image_prompt", f"{title} scientific illustration")
+        img_prompt = slide_info.get("image_prompt", f"{title} clean illustration")
         formal_def = slide_info.get("formal_definition", "")
-        closing_msg = slide_info.get("closing_message", "")
 
         # Slide Number Badge (Bottom Right)
         slide_num_box = slide.shapes.add_textbox(Inches(11.8), Inches(7.0), Inches(1.2), Inches(0.4))
@@ -172,13 +164,11 @@ def build_presentation_pptx(presentation_data: dict, theme_name: str = "cyber_em
         p_num.font.color.rgb = theme["text_secondary_rgb"]
 
         # =========================================================================
-        # SLIDE 1: GAMMA HERO BENTO COVER (FORMAL DEFINITION & PREMISE)
+        # SLIDE 1: CORE CONCEPT DEFINITION & HERO BENTO
         # =========================================================================
         if idx == 0 or layout_type == "title":
-            # Top Tag Badge
-            create_badge(slide, Inches(0.9), Inches(0.55), Inches(2.6), Inches(0.35), tag, theme["accent_rgb"], theme["bg_rgb"], theme["font_body"])
+            create_badge(slide, Inches(0.9), Inches(0.55), Inches(2.4), Inches(0.35), "CORE CONCEPT", theme["accent_rgb"], theme["bg_rgb"], theme["font_body"])
 
-            # Hero Presentation Title
             tbox = slide.shapes.add_textbox(Inches(0.9), Inches(0.95), Inches(11.5), Inches(1.3))
             tf = tbox.text_frame
             tf.word_wrap = True
@@ -197,42 +187,39 @@ def build_presentation_pptx(presentation_data: dict, theme_name: str = "cyber_em
                 p_sub.font.size = Pt(13)
                 p_sub.font.color.rgb = theme["text_secondary_rgb"]
 
-            # Bento Left: Formal Definition & Research Scope Card
-            bento_left = create_gamma_card(slide, Inches(0.9), Inches(2.2), Inches(6.8), Inches(4.6), theme["card_bg_rgb"], theme["card_border_rgb"], 1.2)
-            
-            # Definition Pill Header inside Bento Card
-            create_badge(slide, Inches(1.2), Inches(2.45), Inches(3.2), Inches(0.32), "📖 FORMAL ACADEMIC DEFINITION", theme["bg_rgb"], theme["accent_rgb"], theme["font_body"])
+            # Bento Left: Core Concept Box
+            create_gamma_card(slide, Inches(0.9), Inches(2.2), Inches(6.8), Inches(4.6), theme["card_bg_rgb"], theme["card_border_rgb"], 1.2)
+            create_badge(slide, Inches(1.2), Inches(2.45), Inches(2.4), Inches(0.32), "💡 IN SIMPLE WORDS", theme["bg_rgb"], theme["accent_rgb"], theme["font_body"])
 
-            def_text_box = slide.shapes.add_textbox(Inches(1.2), Inches(2.85), Inches(6.2), Inches(1.3))
+            def_text_box = slide.shapes.add_textbox(Inches(1.2), Inches(2.85), Inches(6.2), Inches(1.2))
             dtf = def_text_box.text_frame
             dtf.word_wrap = True
             dp = dtf.paragraphs[0]
-            dp.text = formal_def or f"Formally defined, {topic_title} is an advanced academic domain governing algorithmic data pipelines, architectural mechanics, and deterministic performance evaluations."
+            dp.text = formal_def or f"In simple words, {topic_title} is a breakthrough technology that replaces slow traditional systems with super-smart, automated processing to solve complex problems in seconds."
             dp.font.name = theme["font_body"]
-            dp.font.size = Pt(11.5)
+            dp.font.size = Pt(12)
             dp.font.color.rgb = theme["text_primary_rgb"]
 
-            # Agenda / Scope points inside Bento Left
-            scope_box = slide.shapes.add_textbox(Inches(1.2), Inches(4.2), Inches(6.2), Inches(2.4))
-            render_bullet_points(scope_box.text_frame, bullets, theme, font_size=11.5)
+            # Scope points inside Bento Left
+            scope_box = slide.shapes.add_textbox(Inches(1.2), Inches(4.1), Inches(6.2), Inches(2.4))
+            render_bullet_points(scope_box.text_frame, bullets, theme, font_size=12.5)
 
-            # Bento Right: Visual Diagram & Stat Frame
-            bento_right = create_gamma_card(slide, Inches(8.0), Inches(2.2), Inches(4.433), Inches(4.6), theme["card_bg_rgb"], theme["card_border_rgb"], 1.2)
+            # Bento Right: Visual Diagram Frame
+            create_gamma_card(slide, Inches(8.0), Inches(2.2), Inches(4.433), Inches(4.6), theme["card_bg_rgb"], theme["card_border_rgb"], 1.2)
             
             if include_images:
                 try:
                     local_img = fetch_ai_image(img_prompt, seed=idx * 23 + 101)
                     if local_img and os.path.exists(local_img):
-                        slide.shapes.add_picture(local_img, Inches(8.2), Inches(2.4), width=Inches(4.033), height=Inches(3.3))
+                        slide.shapes.add_picture(local_img, Inches(8.2), Inches(2.4), width=Inches(4.033), height=Inches(3.4))
                 except Exception as e:
-                    print(f"[PPTXGenerator] Slide 1 visual error: {e}")
+                    print(f"[PPTXGenerator] Slide 1 visual note: {e}")
 
-            # Highlight Metric inside Bento Right
             if stat:
-                st_card = create_gamma_card(slide, Inches(8.2), Inches(5.85), Inches(4.033), Inches(0.7), theme["bg_rgb"], theme["accent_rgb"], 1.2)
+                st_card = create_gamma_card(slide, Inches(8.2), Inches(5.95), Inches(4.033), Inches(0.65), theme["bg_rgb"], theme["accent_rgb"], 1.2)
                 sp = st_card.text_frame.paragraphs[0]
                 sp.alignment = PP_ALIGN.CENTER
-                sp.text = f"★ {stat}"
+                sp.text = f"{stat}"
                 sp.font.name = theme["font_body"]
                 sp.font.size = Pt(11.5)
                 sp.font.bold = True
@@ -240,64 +227,50 @@ def build_presentation_pptx(presentation_data: dict, theme_name: str = "cyber_em
             continue
 
         # =========================================================================
-        # FINAL SLIDE: GAMMA THANK YOU & DEFENSE Q&A CLOSING
+        # FINAL SLIDE: PURE MINIMALIST "THANK YOU!" ONLY (Zero keywords, zero takeaways!)
         # =========================================================================
         if idx == total_slides - 1 or layout_type == "thank_you":
-            # Header
-            create_badge(slide, Inches(0.9), Inches(0.55), Inches(2.8), Inches(0.35), "DEFENSE CONCLUSION", theme["accent_rgb"], theme["bg_rgb"], theme["font_body"])
+            # Elegant Large Center Hero Card
+            hero_ty = create_gamma_card(slide, Inches(1.8), Inches(1.2), Inches(9.733), Inches(5.1), theme["card_bg_rgb"], theme["accent_rgb"], 1.8)
 
-            th_box = slide.shapes.add_textbox(Inches(0.9), Inches(0.95), Inches(11.5), Inches(1.3))
+            # Centered Badge
+            create_badge(slide, Inches(5.4), Inches(1.8), Inches(2.5), Inches(0.38), "🎉 THAT'S A WRAP", theme["accent_rgb"], theme["bg_rgb"], theme["font_body"])
+
+            # Big Bold Thank You Title
+            th_box = slide.shapes.add_textbox(Inches(2.2), Inches(2.5), Inches(8.9), Inches(1.8))
             th_tf = th_box.text_frame
             th_tf.word_wrap = True
             p_th = th_tf.paragraphs[0]
-            p_th.text = "Thank You for Your Time & Attention"
+            p_th.alignment = PP_ALIGN.CENTER
+            p_th.text = "Thank You!"
             p_th.font.name = theme["font_title"]
-            p_th.font.size = Pt(30)
+            p_th.font.size = Pt(46)
             p_th.font.bold = True
             p_th.font.color.rgb = theme["text_primary_rgb"]
 
             p_th_sub = th_tf.add_paragraph()
-            p_th_sub.space_before = Pt(3)
-            p_th_sub.text = subtitle or "Floor is now Open for Questions, Academic Inquiries & Constructive Critiques"
+            p_th_sub.alignment = PP_ALIGN.CENTER
+            p_th_sub.space_before = Pt(8)
+            p_th_sub.text = "Any Questions? Let's Discuss!"
             p_th_sub.font.name = theme["font_body"]
-            p_th_sub.font.size = Pt(13)
+            p_th_sub.font.size = Pt(18)
             p_th_sub.font.color.rgb = theme["accent_rgb"]
 
-            # Bento Left: Key Takeaways Recap Card
-            b_left = create_gamma_card(slide, Inches(0.9), Inches(2.2), Inches(6.0), Inches(4.6), theme["card_bg_rgb"], theme["card_border_rgb"], 1.2)
-            create_badge(slide, Inches(1.2), Inches(2.45), Inches(2.6), Inches(0.32), "SUMMARY SYNTHESIS", theme["bg_rgb"], theme["accent_rgb"], theme["font_body"])
-            
-            sum_box = slide.shapes.add_textbox(Inches(1.2), Inches(2.9), Inches(5.4), Inches(3.6))
-            render_bullet_points(sum_box.text_frame, bullets, theme, font_size=12)
-
-            # Bento Right: Appreciation & Q&A Forum Card
-            b_right = create_gamma_card(slide, Inches(7.2), Inches(2.2), Inches(5.233), Inches(4.6), theme["card_bg_rgb"], theme["accent_rgb"], 1.5)
-            create_badge(slide, Inches(7.5), Inches(2.45), Inches(2.8), Inches(0.32), "ACKNOWLEDGMENTS", theme["accent_rgb"], theme["bg_rgb"], theme["font_body"])
-
-            appr_box = slide.shapes.add_textbox(Inches(7.5), Inches(2.95), Inches(4.6), Inches(1.8))
-            ap_tf = appr_box.text_frame
-            ap_tf.word_wrap = True
-            ap = ap_tf.paragraphs[0]
-            ap.text = closing_msg or "We express sincere gratitude to our academic mentors, thesis advisory committee, and peer researchers whose critical insights have enriched this investigation."
-            ap.font.name = theme["font_body"]
-            ap.font.size = Pt(12)
-            ap.font.color.rgb = theme["text_primary_rgb"]
-
-            # Q&A Big Button Callout
-            qa_pill = create_gamma_card(slide, Inches(7.5), Inches(5.3), Inches(4.633), Inches(1.1), theme["bg_rgb"], theme["accent_rgb"], 1.2)
-            qp = qa_pill.text_frame.paragraphs[0]
+            # Q&A Pill
+            qa_btn = create_gamma_card(slide, Inches(4.6), Inches(4.8), Inches(4.1), Inches(0.85), theme["bg_rgb"], theme["accent_rgb"], 1.2)
+            qp = qa_btn.text_frame.paragraphs[0]
             qp.alignment = PP_ALIGN.CENTER
-            qp.text = "💬 OPEN FOR QUESTIONS & ANSWERS (Q&A)"
+            qp.text = "💬 OPEN FOR Q&A"
             qp.font.name = theme["font_title"]
-            qp.font.size = Pt(12.5)
+            qp.font.size = Pt(13)
             qp.font.bold = True
             qp.font.color.rgb = theme["accent_rgb"]
             continue
 
         # =========================================================================
-        # STANDARD HEADER FOR MIDDLE CONTENT SLIDES
+        # STANDARD MIDDLE CONTENT SLIDES
         # =========================================================================
-        create_badge(slide, Inches(0.9), Inches(0.55), Inches(2.6), Inches(0.32), tag, theme["accent_rgb"], theme["bg_rgb"], theme["font_body"])
+        create_badge(slide, Inches(0.9), Inches(0.55), Inches(2.4), Inches(0.32), tag, theme["accent_rgb"], theme["bg_rgb"], theme["font_body"])
 
         header_box = slide.shapes.add_textbox(Inches(0.9), Inches(0.92), Inches(11.5), Inches(1.1))
         htf = header_box.text_frame
@@ -305,7 +278,7 @@ def build_presentation_pptx(presentation_data: dict, theme_name: str = "cyber_em
         hp = htf.paragraphs[0]
         hp.text = title
         hp.font.name = theme["font_title"]
-        hp.font.size = Pt(24)
+        hp.font.size = Pt(25)
         hp.font.bold = True
         hp.font.color.rgb = theme["text_primary_rgb"]
 
@@ -314,12 +287,10 @@ def build_presentation_pptx(presentation_data: dict, theme_name: str = "cyber_em
             hp_sub.space_before = Pt(2)
             hp_sub.text = subtitle
             hp_sub.font.name = theme["font_body"]
-            hp_sub.font.size = Pt(12.5)
+            hp_sub.font.size = Pt(13)
             hp_sub.font.color.rgb = theme["text_secondary_rgb"]
 
-        # =========================================================================
-        # MIDDLE LAYOUT: THREE CARDS BENTO
-        # =========================================================================
+        # Layout: Three Cards
         if layout_type == "three_cards":
             card_w = Inches(3.64)
             card_h = Inches(4.7)
@@ -327,19 +298,17 @@ def build_presentation_pptx(presentation_data: dict, theme_name: str = "cyber_em
             start_x = Inches(0.9)
             start_y = Inches(2.1)
 
-            card_labels = ["01 / AXIOM", "02 / MECHANISM", "03 / DEPLOYMENT"]
+            card_labels = ["01 / STEP", "02 / STEP", "03 / STEP"]
             for c_idx, bp in enumerate(bullets[:3]):
                 c_x = start_x + (c_idx * (card_w + spacing))
                 card_shape = create_gamma_card(slide, c_x, start_y, card_w, card_h, theme["card_bg_rgb"], theme["card_border_rgb"], 1.2)
-                create_badge(slide, c_x + Inches(0.3), start_y + Inches(0.3), Inches(1.5), Inches(0.32), card_labels[c_idx], theme["accent_rgb"], theme["bg_rgb"], theme["font_body"])
+                create_badge(slide, c_x + Inches(0.3), start_y + Inches(0.3), Inches(1.4), Inches(0.32), card_labels[c_idx], theme["accent_rgb"], theme["bg_rgb"], theme["font_body"])
 
                 c_box = slide.shapes.add_textbox(c_x + Inches(0.25), start_y + Inches(0.8), card_w - Inches(0.5), card_h - Inches(1.0))
-                render_bullet_points(c_box.text_frame, [bp], theme, font_size=13)
+                render_bullet_points(c_box.text_frame, [bp], theme, font_size=13.5)
             continue
 
-        # =========================================================================
-        # MIDDLE LAYOUT: SPLIT IMAGE BENTO (LEFT OR RIGHT)
-        # =========================================================================
+        # Layout: Split Image Bento
         is_image_left = (layout_type == "split_image_left")
         content_w = Inches(6.5)
         content_h = Inches(4.75)
@@ -355,23 +324,22 @@ def build_presentation_pptx(presentation_data: dict, theme_name: str = "cyber_em
 
         card_top = Inches(2.1)
 
-        # Content Bento Card
-        c_card = create_gamma_card(slide, content_left, card_top, content_w, content_h, theme["card_bg_rgb"], theme["card_border_rgb"], 1.2)
-        tb_bullets = slide.shapes.add_textbox(content_left + Inches(0.35), card_top + Inches(0.3), content_w - Inches(0.7), Inches(3.4))
-        render_bullet_points(tb_bullets.text_frame, bullets, theme, font_size=13)
+        create_gamma_card(slide, content_left, card_top, content_w, content_h, theme["card_bg_rgb"], theme["card_border_rgb"], 1.2)
+        tb_bullets = slide.shapes.add_textbox(content_left + Inches(0.35), card_top + Inches(0.35), content_w - Inches(0.7), Inches(3.4))
+        render_bullet_points(tb_bullets.text_frame, bullets, theme, font_size=13.5)
 
         if stat:
             st_card = create_gamma_card(slide, content_left + Inches(0.35), card_top + Inches(3.85), content_w - Inches(0.7), Inches(0.65), theme["bg_rgb"], theme["accent_rgb"], 1.2)
             sp = st_card.text_frame.paragraphs[0]
             sp.alignment = PP_ALIGN.CENTER
-            sp.text = f"💡 Empirical Benchmark: {stat}"
+            sp.text = f"{stat}"
             sp.font.name = theme["font_body"]
-            sp.font.size = Pt(11)
+            sp.font.size = Pt(11.5)
             sp.font.bold = True
             sp.font.color.rgb = theme["accent_rgb"]
 
         # Visual Bento Frame
-        img_frame = create_gamma_card(slide, img_left, card_top, img_w, img_h, theme["card_bg_rgb"], theme["card_border_rgb"], 1.2)
+        create_gamma_card(slide, img_left, card_top, img_w, img_h, theme["card_bg_rgb"], theme["card_border_rgb"], 1.2)
 
         if include_images:
             try:
@@ -385,10 +353,10 @@ def build_presentation_pptx(presentation_data: dict, theme_name: str = "cyber_em
                         height=img_h - Inches(0.3)
                     )
             except Exception as e:
-                print(f"[PPTXGenerator] Image embed error on slide {idx+1}: {e}")
+                print(f"[PPTXGenerator] Image embed note on slide {idx+1}: {e}")
 
     file_id = f"gamma_deck_{uuid.uuid4().hex[:10]}"
     file_path = os.path.join(OUTPUT_DIR, f"{file_id}.pptx")
     prs.save(file_path)
-    print(f"[PPTXGenerator] Generated {len(slides_data)}-slide Gamma Bento PPTX at: {file_path}")
+    print(f"[PPTXGenerator] Generated {len(slides_data)}-slide Clean Bento PPTX at: {file_path}")
     return file_id, file_path

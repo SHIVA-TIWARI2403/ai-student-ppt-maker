@@ -1,6 +1,7 @@
 /**
  * SlideCraft AI - Punchy Student Bento Studio Controller
- * Modern Outfit typography, short easy-to-read bullets, zero clutter, and clean visuals.
+ * Slide 1: Core Concept Definition & Visual
+ * Final Slide: Pure Minimalist "Thank You!" & Q&A ONLY (Zero keywords, zero takeaways!)
  */
 
 let currentPresentation = null;
@@ -148,7 +149,7 @@ async function handleGenerateDeck() {
 
     const progressDiv = document.getElementById("progressStatus");
     progressDiv.classList.remove("hidden");
-    progressDiv.innerText = `Crafting ${slideCount} punchy, easy-to-read Bento cards...`;
+    progressDiv.innerText = `Crafting ${slideCount} punchy Bento cards with Core Concept & Pure Thank You...`;
 
     try {
         const response = await fetch("/api/generate", {
@@ -231,21 +232,20 @@ function renderCurrentSlide() {
     const stat = slide.stat_or_highlight || "";
     const imgUrl = slide.preview_image_url || "";
     const formalDef = slide.formal_definition || "";
-    const closingMsg = slide.closing_message || "";
 
     const formattedBullets = formatBullets(bullets, theme);
 
     let contentHtml = "";
 
     // =========================================================================
-    // SLIDE 1: HERO CONCEPT DEFINITION (EASY PLAIN ENGLISH)
+    // SLIDE 1: CORE CONCEPT DEFINITION & HERO BENTO
     // =========================================================================
     if (currentSlideIndex === 0 || slide.layout_type === "title") {
         contentHtml = `
             <div class="h-full w-full p-8 md:p-11 flex flex-col justify-between gamma-active-slide">
                 <!-- Header -->
                 <div>
-                    <span class="gamma-pill mb-2">${tag}</span>
+                    <span class="gamma-pill mb-2">CORE CONCEPT</span>
                     <h1 class="text-3xl md:text-5xl font-black tracking-tight" style="color:${theme.textPrimary}">${title}</h1>
                     <p class="text-xs md:text-sm mt-1 font-medium" style="color:${theme.textSecondary}">${subtitle}</p>
                 </div>
@@ -253,10 +253,9 @@ function renderCurrentSlide() {
                 <!-- Bento Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-6 my-auto items-stretch">
                     
-                    <!-- Left: Simple Concept Box -->
+                    <!-- Left: Core Concept Box -->
                     <div class="md:col-span-7 p-6 rounded-2xl border flex flex-col justify-between" style="background:${theme.cardBg}; border-color:${theme.cardBorder}">
                         <div>
-                            <!-- Simple Plain English Concept Box -->
                             <div class="p-4 rounded-xl border mb-4" style="background:rgba(16, 185, 129, 0.08); border-color:${theme.accent}">
                                 <span class="text-[11px] font-extrabold uppercase tracking-wider block mb-1" style="color:${theme.accent}">
                                     💡 IN SIMPLE WORDS:
@@ -295,47 +294,26 @@ function renderCurrentSlide() {
         `;
     }
     // =========================================================================
-    // FINAL SLIDE: CRAZY COOL THANK YOU & Q&A
+    // FINAL SLIDE: PURE MINIMALIST "THANK YOU!" ONLY (Zero keywords, zero takeaways!)
     // =========================================================================
     else if (currentSlideIndex === slides.length - 1 || slide.layout_type === "thank_you") {
         contentHtml = `
-            <div class="h-full w-full p-8 md:p-11 flex flex-col justify-between gamma-active-slide text-center">
-                <div>
-                    <span class="gamma-pill mb-2">🎉 THAT'S A WRAP!</span>
-                    <h2 class="text-3xl md:text-5xl font-black tracking-tight" style="color:${theme.textPrimary}">
-                        Thank You! Time for Q&A!
+            <div class="h-full w-full p-8 md:p-14 flex flex-col justify-center items-center text-center gamma-active-slide">
+                <div class="max-w-2xl w-full mx-auto p-10 md:p-14 rounded-3xl border border-white/10 shadow-2xl flex flex-col items-center justify-center space-y-6" style="background:${theme.cardBg}">
+                    <span class="gamma-pill text-xs py-1 px-4">🎉 THAT'S A WRAP!</span>
+                    <h2 class="text-4xl md:text-6xl font-black tracking-tight" style="color:${theme.textPrimary}">
+                        Thank You!
                     </h2>
-                    <p class="text-sm md:text-lg font-semibold mt-1" style="color:${theme.accent}">
-                        Any Questions or Thoughts? Let's Discuss!
+                    <p class="text-base md:text-xl font-bold" style="color:${theme.accent}">
+                        Any Questions? Let's Discuss!
                     </p>
-                </div>
-
-                <!-- Bento Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 my-auto text-left items-stretch">
-                    <!-- Left: Top Takeaways -->
-                    <div class="md:col-span-6 p-6 rounded-2xl border flex flex-col justify-between" style="background:${theme.cardBg}; border-color:${theme.cardBorder}">
-                        <span class="gamma-pill text-[10px] mb-3 self-start">KEY TAKEAWAYS</span>
-                        <ul class="space-y-2 my-auto">
-                            ${formattedBullets}
-                        </ul>
-                    </div>
-
-                    <!-- Right: Q&A Forum -->
-                    <div class="md:col-span-6 p-6 rounded-2xl border flex flex-col justify-between" style="background:${theme.cardBg}; border-color:${theme.accent}">
-                        <div>
-                            <span class="gamma-pill text-[10px] mb-2">CREDITS & THANKS</span>
-                            <p class="text-sm leading-relaxed italic mt-2 text-gray-300">
-                                "${closingMsg || "Huge thanks to our teachers, mentors, and classmates for listening! Now let's open the floor."}"
-                            </p>
-                        </div>
-
-                        <div class="mt-4 p-4 rounded-xl text-center font-extrabold text-sm uppercase tracking-wider shadow-lg" style="background:${theme.accent}; color:#07090E">
-                            💬 ASK ME ANYTHING (Q&A)
+                    <div class="pt-2">
+                        <div class="px-7 py-3 rounded-xl font-extrabold text-sm uppercase tracking-wider shadow-lg flex items-center gap-2" style="background:${theme.accent}; color:#07090E">
+                            💬 OPEN FOR Q&A
                         </div>
                     </div>
                 </div>
-
-                <div class="text-right text-xs" style="color:${theme.textSecondary}">
+                <div class="text-right text-xs mt-6 w-full" style="color:${theme.textSecondary}">
                     ${currentSlideIndex + 1} / ${slides.length}
                 </div>
             </div>
@@ -347,17 +325,13 @@ function renderCurrentSlide() {
     else {
         contentHtml = `
             <div class="h-full w-full p-7 md:p-9 flex flex-col justify-between gamma-active-slide">
-                <!-- Header -->
                 <div>
                     <span class="gamma-pill mb-1.5">${tag}</span>
                     <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight" style="color:${theme.textPrimary}">${title}</h2>
                     ${subtitle ? `<p class="text-xs md:text-sm mt-0.5 font-medium" style="color:${theme.textSecondary}">${subtitle}</p>` : ""}
                 </div>
 
-                <!-- Bento Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-6 my-auto items-stretch">
-                    
-                    <!-- Text Bento -->
                     <div class="md:col-span-7 p-6 rounded-2xl border flex flex-col justify-between" style="background:${theme.cardBg}; border-color:${theme.cardBorder}">
                         <ul class="space-y-2 my-auto">
                             ${formattedBullets}
@@ -369,7 +343,6 @@ function renderCurrentSlide() {
                         ` : ""}
                     </div>
 
-                    <!-- Clean Visual Bento (Zero Watermark) -->
                     <div class="md:col-span-5 rounded-2xl overflow-hidden border border-white/10 relative flex items-center justify-center min-h-[230px]" style="background:${theme.cardBg}">
                         <img src="${imgUrl}" alt="${title}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&auto=format&fit=crop&q=85'"/>
                     </div>
@@ -398,6 +371,22 @@ function renderContinuousDocument() {
         card.className = "gamma-doc-card";
         card.style.background = theme.cardBg;
         card.style.borderColor = theme.cardBorder;
+
+        // Final Slide in Document Mode: Pure Thank You!
+        if (idx === currentPresentation.slides.length - 1 || slide.layout_type === "thank_you") {
+            card.innerHTML = `
+                <div class="p-10 rounded-2xl border border-white/10 text-center flex flex-col items-center justify-center space-y-4" style="background:${theme.cardBg}">
+                    <span class="gamma-pill text-xs">🎉 THAT'S A WRAP!</span>
+                    <h2 class="text-3xl md:text-5xl font-black" style="color:${theme.textPrimary}">Thank You!</h2>
+                    <p class="text-base md:text-lg font-bold" style="color:${theme.accent}">Any Questions? Let's Discuss!</p>
+                    <div class="px-6 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider" style="background:${theme.accent}; color:#07090E">
+                        💬 OPEN FOR Q&A
+                    </div>
+                </div>
+            `;
+            docWrapper.appendChild(card);
+            return;
+        }
 
         const tag = slide.tag || "CARD";
         const title = slide.title || "";
