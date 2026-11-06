@@ -1,0 +1,122 @@
+"""
+Theme presets and color palettes for AI Student PPT Maker.
+Each theme defines colors, typography, card styles, and slide transition effects.
+"""
+
+from pptx.dml.color import RGBColor
+
+THEMES = {
+    "academic_navy": {
+        "id": "academic_navy",
+        "name": "Academic Navy",
+        "description": "Professional, authoritative, perfect for college seminars and research papers.",
+        "bg_hex": "#0B132B",
+        "bg_rgb": RGBColor(11, 19, 43),
+        "card_bg_hex": "#1C2541",
+        "card_bg_rgb": RGBColor(28, 37, 65),
+        "card_border_hex": "#3A506B",
+        "card_border_rgb": RGBColor(58, 80, 107),
+        "text_primary_hex": "#FFFFFF",
+        "text_primary_rgb": RGBColor(255, 255, 255),
+        "text_secondary_hex": "#94A3B8",
+        "text_secondary_rgb": RGBColor(148, 163, 184),
+        "accent_hex": "#48CAE4",
+        "accent_rgb": RGBColor(72, 202, 228),
+        "accent_warm_hex": "#F77F00",
+        "accent_warm_rgb": RGBColor(247, 127, 0),
+        "font_title": "Segoe UI",
+        "font_body": "Segoe UI",
+        "transition": "fade"
+    },
+    "cyber_emerald": {
+        "id": "cyber_emerald",
+        "name": "Cyber Emerald",
+        "description": "Futuristic dark tech aesthetic for computer science, AI, and engineering.",
+        "bg_hex": "#0D1117",
+        "bg_rgb": RGBColor(13, 17, 23),
+        "card_bg_hex": "#161B22",
+        "card_bg_rgb": RGBColor(22, 27, 34),
+        "card_border_hex": "#30363D",
+        "card_border_rgb": RGBColor(48, 54, 61),
+        "text_primary_hex": "#F0F6FC",
+        "text_primary_rgb": RGBColor(240, 246, 252),
+        "text_secondary_hex": "#8B949E",
+        "text_secondary_rgb": RGBColor(139, 148, 158),
+        "accent_hex": "#10B981",
+        "accent_rgb": RGBColor(16, 185, 129),
+        "accent_warm_hex": "#38BDF8",
+        "accent_warm_rgb": RGBColor(56, 189, 248),
+        "font_title": "Segoe UI",
+        "font_body": "Segoe UI",
+        "transition": "push"
+    },
+    "modern_minimalist": {
+        "id": "modern_minimalist",
+        "name": "Modern Minimalist",
+        "description": "Clean, high-contrast light mode with elegant typography for business and humanities.",
+        "bg_hex": "#F8FAFC",
+        "bg_rgb": RGBColor(248, 250, 252),
+        "card_bg_hex": "#FFFFFF",
+        "card_bg_rgb": RGBColor(255, 255, 255),
+        "card_border_hex": "#E2E8F0",
+        "card_border_rgb": RGBColor(226, 232, 240),
+        "text_primary_hex": "#0F172A",
+        "text_primary_rgb": RGBColor(15, 23, 42),
+        "text_secondary_hex": "#64748B",
+        "text_secondary_rgb": RGBColor(100, 116, 139),
+        "accent_hex": "#6366F1",
+        "accent_rgb": RGBColor(99, 102, 241),
+        "accent_warm_hex": "#EC4899",
+        "accent_warm_rgb": RGBColor(236, 72, 153),
+        "font_title": "Segoe UI",
+        "font_body": "Segoe UI",
+        "transition": "fade"
+    },
+    "vibrant_sunset": {
+        "id": "vibrant_sunset",
+        "name": "Vibrant Sunset",
+        "description": "Creative, energetic gradient vibe for design, marketing, and school projects.",
+        "bg_hex": "#1E112A",
+        "bg_rgb": RGBColor(30, 17, 42),
+        "card_bg_hex": "#2D1B3E",
+        "card_bg_rgb": RGBColor(45, 27, 62),
+        "card_border_hex": "#4E2B6B",
+        "card_border_rgb": RGBColor(78, 43, 107),
+        "text_primary_hex": "#FFFFFF",
+        "text_primary_rgb": RGBColor(255, 255, 255),
+        "text_secondary_hex": "#D1C4E9",
+        "text_secondary_rgb": RGBColor(209, 196, 233),
+        "accent_hex": "#F43F5E",
+        "accent_rgb": RGBColor(244, 63, 94),
+        "accent_warm_hex": "#F59E0B",
+        "accent_warm_rgb": RGBColor(245, 158, 11),
+        "font_title": "Segoe UI",
+        "font_body": "Segoe UI",
+        "transition": "zoom"
+    },
+    "ocean_cyan": {
+        "id": "ocean_cyan",
+        "name": "Ocean Cyan",
+        "description": "Calm, tech-forward maritime blue with crisp cyan accents.",
+        "bg_hex": "#071E26",
+        "bg_rgb": RGBColor(7, 30, 38),
+        "card_bg_hex": "#0D2E3A",
+        "card_bg_rgb": RGBColor(13, 46, 58),
+        "card_border_hex": "#1B4D5F",
+        "card_border_rgb": RGBColor(27, 77, 95),
+        "text_primary_hex": "#E0F2FE",
+        "text_primary_rgb": RGBColor(224, 242, 254),
+        "text_secondary_hex": "#7DD3FC",
+        "text_secondary_rgb": RGBColor(125, 211, 252),
+        "accent_hex": "#06B6D4",
+        "accent_rgb": RGBColor(6, 182, 212),
+        "accent_warm_hex": "#F97316",
+        "accent_warm_rgb": RGBColor(249, 115, 22),
+        "font_title": "Segoe UI",
+        "font_body": "Segoe UI",
+        "transition": "wipe"
+    }
+}
+
+def get_theme(theme_name: str) -> dict:
+    return THEMES.get(theme_name, THEMES["cyber_emerald"])

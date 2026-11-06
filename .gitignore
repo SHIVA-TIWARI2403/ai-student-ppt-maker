@@ -1,0 +1,22 @@
+# Environment & Secrets
+.env
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Generated PPTs and image cache
+generated_ppts/*.pptx
+generated_ppts/cache/*
+!generated_ppts/.gitkeep
+!generated_ppts/cache/.gitkeep
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Virtualenv
+venv/
+env/
+.venv/
