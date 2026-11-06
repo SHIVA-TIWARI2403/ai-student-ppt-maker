@@ -1,26 +1,58 @@
-# 🎓 SlideCraft AI — Autonomous Academic Presentation Engine
+# 🎓 SlideCraft AI — Autonomous Presentation & PPT Maker for Students
 
-> **Autonomous AI Slide Deck Synthesis for Students, Researchers, and Evaluators**  
-> Generate exhaustive, high-theory academic presentations up to **25 slides** — complete with **formal concept definitions on Slide 1, deep theoretical mechanics, full-bleed thematic wallpapers, animated OpenXML slide transitions, and a dedicated closing Thank You & Q&A defense slide**. 100% Free & Open Source!
+> **Autonomous AI Slide Deck Synthesis with Gamma-Style Bento Cards**  
+> Generate punchy, modern slide presentations up to **25 slides** — complete with **Core Concept definition on Slide 1, 2-3 short easy-to-read bullets with emojis, 100% watermark-free HD visuals, native OpenXML PowerPoint slide transitions, and a pure minimalist closing Thank You & Q&A slide**. 100% Free & Open Source!
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110%2B-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com)
 [![PowerPoint](https://img.shields.io/badge/Format-Native%20.PPTX-D24726?style=for-the-badge&logo=microsoftpowerpoint)](https://microsoft.com/powerpoint)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38BDF8?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES6%2B-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![License](https://img.shields.io/badge/License-MIT-emerald?style=for-the-badge)](LICENSE)
-[![Deep Research](https://img.shields.io/badge/Capacity-Up%20to%2025%20Slides-purple?style=for-the-badge)](https://github.com/SHIVA-TIWARI2403/ai-student-ppt-maker)
 
 ---
 
-## 🌟 Key Capabilities & Upgrades
+## 🛠️ Tech Stack & Skills
 
-* **📖 Formal Concept Definition on Slide 1:** Automatically extracts and structures an exact scientific/engineering definition and primary operational premise on the introductory slide.
-* **🙏 Dedicated Closing & Thank You Note on Final Slide:** Includes a formal appreciation note acknowledging faculty mentors, thesis committees, and opening the floor for Q&A discussion.
-* **📚 Exhaustive Theoretical Depth (Up to 25 Slides):** Scales from brief 3-slide overviews up to 25-slide deep doctoral dissertations with mathematical formulations, asymptotic complexity, architectural blueprints, and empirical stress tests.
-* **🌌 Thematic Full-Bleed Background Imagery:** Automatically synthesizes and dims high-resolution scientific background wallpapers with contrast overlays for maximum readability.
+This project leverages modern full-stack, AI, and document generation technologies:
+
+<p align="left">
+  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
+  <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" />
+  <img src="https://img.shields.io/badge/Google_Gemini-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="Google Gemini" />
+  <img src="https://img.shields.io/badge/PowerPoint_OpenXML-D24726?style=for-the-badge&logo=microsoftpowerpoint&logoColor=white" alt="PowerPoint PPTX" />
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS-38BDF8?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" />
+  <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5" />
+  <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3" />
+  <img src="https://img.shields.io/badge/Pillow-111111?style=for-the-badge&logo=python&logoColor=white" alt="Pillow Image Processing" />
+  <img src="https://img.shields.io/badge/Uvicorn-2C3E50?style=for-the-badge&logo=gunicorn&logoColor=white" alt="Uvicorn Server" />
+</p>
+
+| Technology | Purpose in Project |
+| :--- | :--- |
+| **Python 3.10+** | Core application logic, OpenXML manipulation, and presentation building |
+| **FastAPI & Uvicorn** | High-performance asynchronous REST API backend serving templates & generation endpoints |
+| **python-pptx & OpenXML** | Compiling genuine Microsoft PowerPoint files (.pptx) with custom Bento shapes and transitions |
+| **Google Gemini API** | AI-driven content structuring, concise bullet points, and conversational presenter scripts |
+| **JavaScript (ES6+)** | Dynamic Gamma-style Bento UI, keyboard navigation (`←`/`→`), dual view mode controller |
+| **Tailwind CSS & Outfit** | Glassmorphic dark styling, modern geometric typography, and responsive 16:9 stage layout |
+| **Pillow (PIL)** | Image resizing, dimming, aspect ratio handling, and gradient backdrop synthesis |
+
+---
+
+## 🌟 Key Capabilities
+
+* **💡 Core Concept Definition on Slide 1:** Simple, punchy 1-sentence explanation in plain English ("What is it in simple words?").
+* **🎉 Pure Minimalist "Thank You!" Final Slide:** Clean closing hero card opening the floor for Q&A without any cluttered keyword lists.
+* **⚡ Short, Punchy Wording:** Maximum 2 to 3 short bullets per slide (under 12 words each) with modern emojis (`🚀`, `⚡`, `🧠`, `💡`, `🛡️`).
+* **🖼️ 100% Watermark-Free Visuals:** Curated high-resolution Unsplash photos and clean 3D graphics (zero ads, zero watermarks).
 * **✨ Native PowerPoint OpenXML Transitions:** Generates genuine slide transitions (*Fade, Push, Wipe, Zoom*) directly embedded in the `.pptx` XML for dynamic presentation playback.
-* **🎙️ Academic Presenter Scripts:** Embedded talking points for every slide (accessible in PowerPoint's Notes pane or via the live browser drawer).
-* **🎨 5 Curated Academic Palettes:** Cyber Emerald, Academic Navy, Modern Minimalist, Vibrant Sunset, and Ocean Cyan.
-* **💻 Interactive In-Browser Studio:** Real-time 16:9 stage preview, keyboard arrow navigation (`←` / `→`), smooth 25-slide thumbnail track, and fullscreen presentation mode.
+* **🎴 Dual View Modes (Gamma Edition):**
+  * **Presentation Deck (16:9):** Presentation stage with arrow key navigation and fullscreen present mode.
+  * **Continuous Document:** Scroll smoothly through all cards on a single page, exactly like a shareable Gamma web presentation.
+* **🎙️ Student Presenter Scripts:** Embedded talking points for every slide (accessible in PowerPoint's Notes pane or via the live browser drawer).
+* **🎨 5 Modern Color Palettes:** Obsidian Emerald, Midnight Cobalt, Stark Minimalist, Onyx Rose, and Deep Marine.
 
 ---
 
@@ -55,28 +87,16 @@ ai-student-ppt-maker/
 ├── run.sh                   # 1-click Unix launcher
 ├── requirements.txt         # Core dependencies
 ├── services/
-│   ├── ai_engine.py         # 25-slide academic curriculum & Gemini integration
-│   ├── pptx_generator.py    # python-pptx builder with background imagery & transitions
-│   ├── visual_service.py    # AI image & dimmed background generation pipeline
-│   └── themes.py            # Academic color palettes & typography specifications
+│   ├── ai_engine.py         # Punchy student content engine & Gemini integration
+│   ├── pptx_generator.py    # Gamma-style Bento PPTX generator with XML transitions
+│   ├── visual_service.py    # Clean, watermark-free visual pipeline
+│   └── themes.py            # Modern color palettes & typography specifications
 ├── static/
-│   ├── css/style.css        # Glassmorphic dark styling & 16:9 stage CSS
-│   └── js/app.js            # Live carousel controller & PPTX exporter
+│   ├── css/style.css        # Outfit & Plus Jakarta typography & Bento CSS
+│   └── js/app.js            # Dual view mode controller & PPTX exporter
 └── templates/
-    └── index.html           # Professional academic web studio interface
+    └── index.html           # Gamma-style web studio interface
 ```
-
----
-
-## 🔌 API Specification
-
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `GET` | `/` | Serves the Academic Presentation Studio |
-| `POST` | `/api/generate` | Generates deep academic slide deck with definitions, visuals & scripts |
-| `POST` | `/api/export-pptx` | Compiles native 16:9 `.pptx` with layouts, cards, wallpapers & transitions |
-| `GET` | `/api/download/{id}` | Direct file download of the compiled `.pptx` file |
-| `GET` | `/api/themes` | Returns available academic color schemes |
 
 ---
 
